@@ -127,6 +127,17 @@ ul { list-style: none; }
   border-color: var(--color-primary);
   background: rgba(22, 59, 115, 0.05);
 }
+.btn-accent {
+  background: var(--color-accent);
+  color: var(--color-text);
+  border: 2px solid var(--color-accent);
+}
+.btn-accent:hover {
+  background: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245, 165, 36, 0.3);
+}
 .mt-4 { margin-top: 16px; }
 .ml-1 { margin-left: 4px; }
 
@@ -892,6 +903,9 @@ ul { list-style: none; }
 }
 .btn-expand:hover { color: var(--color-primary); background: rgba(22, 59, 115, 0.06); }
 
+.rec-card-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.recommandations-hint { margin: -12px 0 20px; font-size: 0.9rem; color: var(--color-text-muted); }
+
 /* Conseil général */
 .conseil-general-card {
   background: var(--color-primary);
@@ -1011,7 +1025,107 @@ ul { list-style: none; }
   border-top: 1px solid var(--color-border);
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
 }
+
+/* ========================================================
+   PLAN DE RENTRÉE
+   ======================================================== */
+.prep-intro { font-size: 0.95rem; color: var(--color-text); line-height: 1.7; }
+.prep-section { margin-bottom: 36px; }
+.prep-section-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.prep-section-title svg { color: var(--color-secondary); flex-shrink: 0; }
+.prep-points { display: flex; flex-direction: column; gap: 14px; }
+.prep-point {
+  display: flex;
+  gap: 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+}
+.prep-numero {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prep-point-titre {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+.prep-point-pourquoi { font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 10px; }
+.prep-timeline { position: relative; padding-left: 28px; display: flex; flex-direction: column; gap: 16px; }
+.prep-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--color-border-strong);
+}
+.prep-etape {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+}
+.prep-etape::before {
+  content: '';
+  position: absolute;
+  left: -27px;
+  top: 22px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  border: 3px solid var(--color-bg);
+}
+.prep-periode {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-secondary-dark);
+  background: rgba(22, 184, 166, 0.1);
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+.prep-objectif { font-weight: 600; font-size: 0.95rem; color: var(--color-text); margin-bottom: 8px; }
+.prep-ressources { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.prep-ressource {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+}
+.prep-ressource-nom { font-weight: 700; font-size: 0.9rem; color: var(--color-primary); margin-bottom: 4px; }
+.prep-ressource-desc { font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.55; }
 
 /* ========================================================
    PRINT STYLES
@@ -1024,7 +1138,7 @@ ul { list-style: none; }
   .rec-card-footer, .btn-expand, .rec-card-expanded { display: none !important; }
   .resultats-page { background: white; }
   .resultats-container { padding: 20px; }
-  .recommandation-card { break-inside: avoid; }
+  .recommandation-card, .prep-point, .prep-etape, .prep-ressource { break-inside: avoid; box-shadow: none; }
   .modal-overlay { display: none !important; }
   body { font-size: 12px; }
   .print-header { display: flex !important; }
@@ -1056,4 +1170,8 @@ ul { list-style: none; }
   .resultats-actions .btn { width: 100%; justify-content: center; }
   .modal-content { max-height: 95vh; border-radius: var(--radius-md); }
   .notes-grid { grid-template-columns: 1fr 1fr; }
+  .rec-card-footer { flex-direction: column; align-items: stretch; gap: 10px; }
+  .rec-card-actions { flex-direction: column; }
+  .rec-card-actions .btn, .modal-footer .btn { width: 100%; justify-content: center; }
+  .prep-point { padding: 16px; gap: 12px; }
 }

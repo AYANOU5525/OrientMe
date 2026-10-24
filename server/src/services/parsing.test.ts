@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { enrichir, extractJson, parseAiResponse } from './parsing';
-import { exempleResultat } from './exemple.fixture';
+import { enrichir, extractJson, parseAiResponse, parsePreparation } from './parsing';
+import { exemplePreparation, exempleResultat } from './exemple.fixture';
 
 const validJson = JSON.stringify(exempleResultat);
 
@@ -64,4 +64,15 @@ test('enrichir ajoute la fiche du catalogue sans toucher au contenu de Gemma', (
   assert.equal(rec.justification, data.recommandations[0].justification);
   assert.ok(rec.description.length > 0);
   assert.ok(rec.prerequis.length > 0);
+});
+
+test('parsePreparation valide le plan de rentrée et signale les champs manquants', () => {
+  assert.equal(parsePreparation(JSON.stringify(exemplePreparation)).ok, true);
+
+  // Erreur observée avec Gemma 4 : un élément de aMaitriser sans commentProgresser
+  const incomplet = JSON.parse(JSON.stringify(exemplePreparation));
+  delete incomplet.aMaitriser[1].commentProgresser;
+  const result = parsePreparation(JSON.stringify(incomplet));
+  assert.equal(result.ok, false);
+  if (!result.ok) assert.match(result.reason, /aMaitriser\.1\.commentProgresser/);
 });

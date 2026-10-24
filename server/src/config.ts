@@ -41,7 +41,8 @@ export const config = {
   models: parseModels(process.env.GEMINI_MODEL, process.env.GEMINI_FALLBACK_MODELS ?? 'gemma-4-31b-it'),
   // Budget total d'une analyse, tous modèles et tentatives confondus
   timeoutMs: Number(process.env.GEMINI_TIMEOUT_MS) || 60_000,
-  thinkingLevel: parseThinkingLevel(process.env.GEMINI_THINKING_LEVEL),
+  // Réflexion minimale par défaut : mesuré sur Gemma 4, ~20 s au lieu de 45 à 110 s, réponses aussi valides
+  thinkingLevel: parseThinkingLevel(process.env.GEMINI_THINKING_LEVEL ?? 'minimal'),
   corsOrigins: parseList(
     process.env.CORS_ORIGINS ??
       'http://localhost:5173,http://localhost:5174,http://localhost:4173,http://localhost:3000'

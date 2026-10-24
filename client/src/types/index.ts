@@ -73,6 +73,41 @@ export interface ApiResponse {
   model: string;
 }
 
+// Plan de rentrée généré par Gemma une fois la filière choisie
+export interface PointAMaitriser {
+  titre: string;
+  pourquoi: string;
+  commentProgresser: string[];
+}
+
+export interface EtapePreparation {
+  periode: string;
+  objectif: string;
+  actions: string[];
+}
+
+export interface PlanRentree {
+  filiereId: string;
+  nom: string;
+  introduction: string;
+  aMaitriser: PointAMaitriser[];
+  planAvantRentree: EtapePreparation[];
+  ressources: { nom: string; description: string }[];
+  motivation: string;
+}
+
+export interface DemandePreparation {
+  profil: DemandeOrientation;
+  filiereId: string;
+  competencesARenforcer: string[];
+}
+
+export interface PlanRentreeResponse {
+  success: boolean;
+  data: PlanRentree;
+  model: string;
+}
+
 export type EtapeFormulaire = 'accueil' | 'scolaire' | 'competences' | 'aspirations' | 'chargement' | 'resultats';
 
 // Profil fictif pour essayer l'application : il est analysé par Gemma comme un vrai profil

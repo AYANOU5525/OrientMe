@@ -1,4 +1,4 @@
-import { OrientationResponse } from '../schemas';
+import { OrientationResponse, PreparationResponse } from '../schemas';
 
 // Réponse valide de référence (profil fictif de Kofi), utilisée uniquement par les tests.
 // Aucune orientation affichée à l'utilisateur ne provient de ce fichier : tout passe par Gemma.
@@ -97,4 +97,35 @@ export const exempleProfil = {
   metierSouhaite: 'Développeur logiciel',
   loisirs: 'Jeux vidéo, lecture de blogs technologiques',
   preferenceFormation: 'les-deux',
+};
+
+// Plan de rentrée valide de référence pour la filière « informatique »
+export const exemplePreparation: PreparationResponse = {
+  introduction: 'Bravo pour ton choix ! Voici comment arriver prêt à ta première année d\'informatique.',
+  aMaitriser: [
+    {
+      titre: 'Les bases de la programmation',
+      pourquoi: 'Les premiers cours supposent que tu sais écrire de petits programmes.',
+      commentProgresser: ['Écris un petit programme par jour', 'Refais les exercices corrigés de ton manuel'],
+    },
+    {
+      titre: 'La logique mathématique',
+      pourquoi: 'Les algorithmes reposent sur le raisonnement logique.',
+      commentProgresser: ['Révise les suites et le raisonnement par récurrence'],
+    },
+  ],
+  planAvantRentree: [
+    {
+      periode: 'Semaines 1 et 2',
+      objectif: 'Découvrir la programmation',
+      actions: ['Suis un cours gratuit d\'introduction à Python'],
+    },
+    {
+      periode: 'Semaines 3 et 4',
+      objectif: 'Réaliser un premier projet',
+      actions: ['Programme une calculatrice simple'],
+    },
+  ],
+  ressources: [{ nom: 'Manuels de Terminale', description: 'Pour revoir les bases de mathématiques.' }],
+  motivation: 'Avec de la régularité, tu seras prêt pour la rentrée !',
 };

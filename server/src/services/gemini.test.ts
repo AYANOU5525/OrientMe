@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { ApiError, type GenerateContentParameters } from '@google/genai';
-import { exempleResultat, exempleProfil } from './exemple.fixture';
+import { exemplePreparation, exempleResultat, exempleProfil } from './exemple.fixture';
 import { OrientationRequestSchema } from '../schemas';
 import type { ModelCaller } from './gemini';
 
@@ -125,4 +125,35 @@ test('intègre les règles au message si l\'instruction système est refusée', 
   assert.equal(calls[1].config?.systemInstruction, undefined);
   const contents = calls[1].contents as Array<{ parts: Array<{ text: string }> }>;
   assert.match(contents[0].parts[0].text, /CATALOGUE DES FILIÈRES AUTORISÉES/);
+});
+
+test('génère le plan de rentrée de la filière choisie', async () => {
+  const { getPreparation } = await loadService();
+  const { caller, calls } = fakeCaller(JSON.stringify(exemplePreparation));
+
+  const { result, model } = await getPreparation(
+    { profil, filiereId: 'informatique', competencesARenforcer: ['Rédaction de rapports'] },
+    caller
+  );
+
+  assert.equal(model, 'gemma-test-a');
+  assert.equal(result.nom, 'Informatique et Développement Logiciel');
+  assert.equal(result.aMaitriser.length, 2);
+  // Le prompt contient la fiche de la filière, les compétences à renforcer et les consignes de rentrée
+  const requete = JSON.stringify(calls[0]);
+  assert.match(requete, /FILIÈRE CHOISIE/);
+  assert.match(requete, /Rédaction de rapports/);
+  assert.match(requete, /avant la rentrée/);
+  assert.equal(calls[0].config?.maxOutputTokens, 3072);
+});
+
+test('refuse un plan de rentrée pour une filière hors catalogue, sans appeler Gemma', async () => {
+  const { getPreparation } = await loadService();
+  const { caller, calls } = fakeCaller();
+
+  await assert.rejects(
+    getPreparation({ profil, filiereId: 'astrophysique', competencesARenforcer: [] }, caller),
+    { code: 'INVALID_INPUT', status: 400 }
+  );
+  assert.equal(calls.length, 0);
 });

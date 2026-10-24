@@ -1,22 +1,44 @@
 import React from 'react';
 import { Brain, Sparkles } from 'lucide-react';
 
-const steps = [
-  'Analyse de tes résultats scolaires...',
-  'Évaluation de tes compétences...',
-  'Identification de tes aspirations...',
-  'Consultation de notre base de filières...',
-  'Génération de tes recommandations personnalisées...',
-];
+const VARIANTES = {
+  orientation: {
+    titre: 'Gemma analyse ton profil',
+    sousTitre: "Le modèle d'IA Gemma de Google croise tes données pour te proposer les filières les plus adaptées.",
+    steps: [
+      'Analyse de tes résultats scolaires...',
+      'Évaluation de tes compétences...',
+      'Identification de tes aspirations...',
+      'Consultation de notre base de filières...',
+      'Génération de tes recommandations personnalisées...',
+    ],
+  },
+  preparation: {
+    titre: 'Gemma prépare ta rentrée',
+    sousTitre: "Le modèle d'IA Gemma de Google construit un plan adapté à ton profil et à la filière que tu as choisie.",
+    steps: [
+      'Étude de la filière choisie...',
+      'Repérage de tes points à renforcer...',
+      'Sélection des compétences clés de première année...',
+      'Construction de ton plan avant la rentrée...',
+      'Recherche de ressources gratuites...',
+    ],
+  },
+};
 
-export const LoadingScreen: React.FC = () => {
+interface LoadingScreenProps {
+  variante?: keyof typeof VARIANTES;
+}
+
+export const LoadingScreen: React.FC<LoadingScreenProps> = ({ variante = 'orientation' }) => {
+  const { titre, sousTitre, steps } = VARIANTES[variante];
   const [currentStep, setCurrentStep] = React.useState(0);
 
   React.useEffect(() => {
     if (currentStep >= steps.length - 1) return;
     const timer = setTimeout(() => setCurrentStep((s) => s + 1), 3000);
     return () => clearTimeout(timer);
-  }, [currentStep]);
+  }, [currentStep, steps.length]);
 
   return (
     <div className="loading-screen">
@@ -33,10 +55,8 @@ export const LoadingScreen: React.FC = () => {
           <Sparkles size={16} className="sparkle sparkle-3" />
         </div>
 
-        <h2 className="loading-title">Gemma analyse ton profil</h2>
-        <p className="loading-subtitle">
-          Le modèle d'IA Gemma de Google croise tes données pour te proposer les filières les plus adaptées.
-        </p>
+        <h2 className="loading-title">{titre}</h2>
+        <p className="loading-subtitle">{sousTitre}</p>
 
         <div className="loading-steps">
           {steps.map((step, i) => (

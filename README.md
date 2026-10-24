@@ -15,6 +15,8 @@ OrientaTogo AI analyse trois dimensions du profil d'un étudiant :
 
 Le modèle **Gemma 4**, servi par l'**API Google Gemini**, génère **trois recommandations de filières** personnalisées, choisies dans un catalogue de 15 filières, avec justifications, compétences à renforcer, débouchés et conseils.
 
+Une fois sa filière choisie, l'étudiant reçoit de Gemma un **plan de rentrée** personnalisé : ce qu'il doit maîtriser avant la rentrée, un plan par étapes pour les vacances et des ressources gratuites.
+
 > **Toute orientation passe par Gemma.** Aucun résultat préenregistré n'est jamais affiché, et le serveur refuse de démarrer si un modèle autre que Gemma est configuré.
 
 ---
@@ -70,7 +72,7 @@ L'application est disponible sur **http://localhost:5173**. En développement, V
 | `GEMINI_MODEL` | `gemma-4-26b-a4b-it` | Modèle principal (Gemma obligatoire) |
 | `GEMINI_FALLBACK_MODELS` | `gemma-4-31b-it` | Modèles de secours Gemma, séparés par des virgules (vide = aucun) |
 | `GEMINI_TIMEOUT_MS` | `60000` | Budget total d'une analyse, tous modèles confondus |
-| `GEMINI_THINKING_LEVEL` | — | Optionnel : `minimal` ou `high` (réflexion du modèle) |
+| `GEMINI_THINKING_LEVEL` | `minimal` | Réflexion du modèle. `high` fait passer Gemma 4 de ~20 s à 45-110 s par réponse |
 | `CORS_ORIGINS` | ports localhost de Vite | Origines autorisées, séparées par des virgules |
 
 Déroulement d'une analyse (`server/src/services/gemini.ts`) :
@@ -90,7 +92,7 @@ OrientMe/
 ├── client/                    # Frontend React + Vite
 │   └── src/
 │       ├── components/        # Logo, Navbar, ProgressBar, LoadingScreen, ErrorCard
-│       ├── pages/             # AccueilPage, FormulaireOrientation, ResultatsPage
+│       ├── pages/             # AccueilPage, FormulaireOrientation, ResultatsPage, PreparationPage
 │       ├── services/api.ts    # Appels API + traduction des erreurs serveur
 │       ├── types/index.ts     # Types TypeScript partagés
 │       ├── App.tsx            # Composant racine + navigation
@@ -132,6 +134,16 @@ GEMINI_API_KEY=AIzaSy...ta_cle...
 
 ---
 
+## 🎒 Plan de rentrée
+
+Sur la page de résultats, chaque recommandation a un bouton **« Je choisis cette filière »** (aussi présent dans la fenêtre de détails). Gemma reçoit alors le profil de l'étudiant, la fiche de la filière et les compétences à renforcer identifiées lors de l'orientation, et renvoie :
+- **Ce qu'il faut maîtriser avant la rentrée** : 3 à 5 points prioritaires, avec pourquoi et comment progresser ;
+- **Un plan d'ici la rentrée** : 3 ou 4 étapes (« Semaines 1 et 2 »…) faisables gratuitement, avec un smartphone ;
+- **Des ressources gratuites** : Gemma a pour consigne de ne nommer que des ressources dont il est certain, sinon d'en décrire le type, et de ne donner aucune URL ;
+- **Un mot d'encouragement**.
+
+La page est imprimable et permet de revenir aux recommandations pour comparer une autre filière.
+
 ## 🧪 Profil exemple
 
 Le bouton **« Remplir avec un profil exemple (Kofi, BAC C) »** de la première étape pré-remplit le formulaire, pratique pour une présentation. L'analyse est ensuite faite par Gemma, comme pour n'importe quel profil.
@@ -145,6 +157,7 @@ Si Gemma n'est pas disponible (clé absente, quota, délai), un message d'erreur
 | Méthode | Route | Description |
 |---------|-------|-------------|
 | POST | `/api/orientation` | Analyse du profil par Gemma |
+| POST | `/api/preparation` | Plan de rentrée Gemma pour la filière choisie (`{ profil, filiereId, competencesARenforcer }`) |
 | GET | `/api/filieres` | Catalogue des filières |
 | GET | `/health` | Statut du serveur et de la configuration IA |
 

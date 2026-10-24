@@ -14,6 +14,7 @@ import {
   X,
   BookOpen,
   Cpu,
+  GraduationCap,
 } from 'lucide-react';
 import type { ResultatOrientation, Recommandation } from '../types';
 import { Logo } from '../components/Logo';
@@ -23,6 +24,8 @@ interface ResultatsPageProps {
   resultats: ResultatOrientation;
   // Modèle Gemma ayant généré l'analyse
   modele: string;
+  // Filière retenue par l'étudiant : déclenche le plan de rentrée
+  onChoisir: (recommandation: Recommandation) => void;
   onRecommencer: () => void;
   onModifier: () => void;
 }
@@ -30,9 +33,10 @@ interface ResultatsPageProps {
 interface ModalProps {
   recommandation: Recommandation;
   onClose: () => void;
+  onChoisir: () => void;
 }
 
-const DetailModal: React.FC<ModalProps> = ({ recommandation, onClose }) => {
+const DetailModal: React.FC<ModalProps> = ({ recommandation, onClose, onChoisir }) => {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -117,8 +121,11 @@ const DetailModal: React.FC<ModalProps> = ({ recommandation, onClose }) => {
         </div>
 
         <div className="modal-footer">
-          <button className="btn btn-primary" onClick={onClose}>
+          <button className="btn btn-outline" onClick={onClose}>
             Fermer
+          </button>
+          <button className="btn btn-accent" onClick={onChoisir}>
+            <GraduationCap size={16} /> Je choisis cette filière
           </button>
         </div>
       </div>
@@ -130,7 +137,8 @@ const RecommandationCard: React.FC<{
   recommandation: Recommandation;
   rang: number;
   onVoirDetail: () => void;
-}> = ({ recommandation, rang, onVoirDetail }) => {
+  onChoisir: () => void;
+}> = ({ recommandation, rang, onVoirDetail, onChoisir }) => {
   const [expanded, setExpanded] = useState(false);
 
   const rangLabels: Record<number, { label: string; class: string }> = {
@@ -204,9 +212,14 @@ const RecommandationCard: React.FC<{
             <><ChevronDown size={16} /> Aperçu rapide</>
           )}
         </button>
-        <button className="btn btn-primary btn-sm" onClick={onVoirDetail}>
-          Voir les détails
-        </button>
+        <div className="rec-card-actions">
+          <button className="btn btn-outline btn-sm" onClick={onVoirDetail}>
+            Voir les détails
+          </button>
+          <button className="btn btn-accent btn-sm" onClick={onChoisir}>
+            <GraduationCap size={14} /> Je choisis cette filière
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -216,6 +229,7 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
   prenom,
   resultats,
   modele,
+  onChoisir,
   onRecommencer,
   onModifier,
 }) => {
@@ -279,6 +293,9 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
         {/* Recommandations */}
         <div className="recommandations-section">
           <h2 className="recommandations-title">Tes trois recommandations</h2>
+          <p className="recommandations-hint no-print">
+            Choisis la filière qui te correspond le mieux : Gemma te dira ce que tu dois maîtriser avant la rentrée.
+          </p>
           <div className="recommandations-grid">
             {resultats.recommandations.map((rec, i) => (
               <RecommandationCard
@@ -286,6 +303,7 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
                 recommandation={rec}
                 rang={i + 1}
                 onVoirDetail={() => setModalRec(rec)}
+                onChoisir={() => onChoisir(rec)}
               />
             ))}
           </div>
@@ -326,6 +344,7 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
         <DetailModal
           recommandation={modalRec}
           onClose={() => setModalRec(null)}
+          onChoisir={() => onChoisir(modalRec)}
         />
       )}
     </div>

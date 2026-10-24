@@ -1,13 +1,14 @@
+import { z } from 'zod';
 import { filieresById } from '../catalog';
 import {
   OrientationResponse,
   OrientationResponseSchema,
   OrientationResult,
+  PreparationResponse,
+  PreparationResponseSchema,
 } from '../schemas';
 
-export type ValidationResult =
-  | { ok: true; data: OrientationResponse }
-  | { ok: false; reason: string };
+export type ValidationResult<T> = { ok: true; data: T } | { ok: false; reason: string };
 
 // Extrait l'objet JSON d'une réponse texte : les modèles sans mode JSON natif
 // l'entourent parfois de ```json … ``` ou d'une phrase d'introduction
@@ -22,13 +23,8 @@ export function extractJson(text: string): unknown {
   return JSON.parse(candidate.slice(start, end + 1));
 }
 
-function normalizeId(id: string): string {
-  return id.trim().toLowerCase().replace(/\s+/g, '-');
-}
-
-// Vérifie la structure, l'appartenance au catalogue et l'unicité des filières.
-// `reason` est renvoyée au modèle pour qu'il corrige sa réponse.
-export function parseAiResponse(text: string | undefined): ValidationResult {
+// Extrait puis valide le JSON ; `reason` est renvoyée au modèle pour qu'il corrige sa réponse
+function parseJson<T>(text: string | undefined, schema: z.ZodType<T, z.ZodTypeDef, unknown>): ValidationResult<T> {
   if (!text?.trim()) return { ok: false, reason: 'la réponse est vide' };
 
   let raw: unknown;
@@ -39,7 +35,7 @@ export function parseAiResponse(text: string | undefined): ValidationResult {
     return { ok: false, reason: `le JSON est invalide (${detail})` };
   }
 
-  const parsed = OrientationResponseSchema.safeParse(raw);
+  const parsed = schema.safeParse(raw);
   if (!parsed.success) {
     const issues = parsed.error.issues
       .slice(0, 5)
@@ -47,6 +43,18 @@ export function parseAiResponse(text: string | undefined): ValidationResult {
       .join(' ; ');
     return { ok: false, reason: `le format ne respecte pas le schéma (${issues})` };
   }
+
+  return { ok: true, data: parsed.data };
+}
+
+function normalizeId(id: string): string {
+  return id.trim().toLowerCase().replace(/\s+/g, '-');
+}
+
+// Vérifie la structure, l'appartenance au catalogue et l'unicité des filières
+export function parseAiResponse(text: string | undefined): ValidationResult<OrientationResponse> {
+  const parsed = parseJson(text, OrientationResponseSchema);
+  if (!parsed.ok) return parsed;
 
   const data = parsed.data;
   for (const rec of data.recommandations) {
@@ -61,6 +69,10 @@ export function parseAiResponse(text: string | undefined): ValidationResult {
   }
 
   return { ok: true, data };
+}
+
+export function parsePreparation(text: string | undefined): ValidationResult<PreparationResponse> {
+  return parseJson(text, PreparationResponseSchema);
 }
 
 // Ajoute la fiche officielle de chaque filière choisie par Gemma (nom, description, prérequis).

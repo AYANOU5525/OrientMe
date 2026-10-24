@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { ApiResponse, DemandeOrientation } from '../types';
+import type { ApiResponse, DemandeOrientation, DemandePreparation, PlanRentreeResponse } from '../types';
 
 // En développement, Vite relaie /api vers le serveur Express (voir vite.config.ts)
 const API_BASE = import.meta.env.VITE_API_URL || '/api';
@@ -58,6 +58,15 @@ function versErreurOrientation(error: unknown): ErreurOrientation {
 export async function soumettreOrientation(demande: DemandeOrientation): Promise<ApiResponse> {
   try {
     const response = await api.post<ApiResponse>('/orientation', demande);
+    return response.data;
+  } catch (error) {
+    throw versErreurOrientation(error);
+  }
+}
+
+export async function demanderPlanRentree(demande: DemandePreparation): Promise<PlanRentreeResponse> {
+  try {
+    const response = await api.post<PlanRentreeResponse>('/preparation', demande);
     return response.data;
   } catch (error) {
     throw versErreurOrientation(error);

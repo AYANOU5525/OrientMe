@@ -54,3 +54,43 @@ export type RecommandationEnrichie = z.infer<typeof RecommandationSchema> & {
 export type OrientationResult = Omit<OrientationResponse, 'recommandations'> & {
   recommandations: RecommandationEnrichie[];
 };
+
+// Plan de préparation à la rentrée, demandé une fois la filière choisie
+export const PreparationRequestSchema = z.object({
+  profil: OrientationRequestSchema,
+  filiereId: z.string().trim().min(1).max(60),
+  // Compétences à renforcer identifiées lors de l'orientation, pour garder un conseil cohérent
+  competencesARenforcer: z.array(z.string().trim().min(1).max(200)).max(5).optional().default([]),
+});
+
+export type PreparationRequest = z.infer<typeof PreparationRequestSchema>;
+
+export const PreparationResponseSchema = z.object({
+  introduction: z.string().min(1),
+  aMaitriser: z
+    .array(
+      z.object({
+        titre: z.string().min(1),
+        pourquoi: z.string().min(1),
+        commentProgresser: z.array(z.string()).min(1),
+      })
+    )
+    .min(2)
+    .max(6),
+  planAvantRentree: z
+    .array(
+      z.object({
+        periode: z.string().min(1),
+        objectif: z.string().min(1),
+        actions: z.array(z.string()).min(1),
+      })
+    )
+    .min(2)
+    .max(6),
+  ressources: z.array(z.object({ nom: z.string().min(1), description: z.string().min(1) })).max(6),
+  motivation: z.string().min(1),
+});
+
+export type PreparationResponse = z.infer<typeof PreparationResponseSchema>;
+
+export type PreparationResult = PreparationResponse & { filiereId: string; nom: string };
