@@ -69,13 +69,42 @@ export interface ResultatOrientation {
 export interface ApiResponse {
   success: boolean;
   data: ResultatOrientation;
-  // Modèle ayant produit l'analyse (ex. gemma-4-26b-a4b-it)
-  model?: string;
-  isDemo?: boolean;
-  profile?: ProfilComplet;
+  // Modèle Gemma ayant produit l'analyse (ex. gemma-4-26b-a4b-it)
+  model: string;
 }
 
 export type EtapeFormulaire = 'accueil' | 'scolaire' | 'competences' | 'aspirations' | 'chargement' | 'resultats';
+
+// Profil fictif pour essayer l'application : il est analysé par Gemma comme un vrai profil
+export const PROFIL_EXEMPLE: DonneesFormulaire = {
+  profil: {
+    prenom: 'Kofi',
+    serieBAC: 'BAC C',
+    notes: {
+      Mathématiques: 17,
+      'Physique-Chimie': 15,
+      SVT: 14,
+      Français: 12,
+      Anglais: 13,
+      'Histoire-Géographie': 11,
+    },
+  },
+  competences: {
+    competences: [
+      'Résoudre des problèmes logiques',
+      'Utiliser les outils informatiques',
+      'Programmer',
+      'Analyser des informations',
+    ],
+    autreCompetence: '',
+  },
+  aspirations: {
+    domainesInteret: ['Informatique et numérique', 'Sciences et ingénierie'],
+    metierSouhaite: 'Développeur logiciel',
+    loisirs: 'Jeux vidéo, lecture de blogs technologiques',
+    preferenceFormation: 'les-deux',
+  },
+};
 
 export const SERIES_BAC = [
   'BAC A4',

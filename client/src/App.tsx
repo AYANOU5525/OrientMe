@@ -4,7 +4,7 @@ import { FormulaireOrientation } from './pages/FormulaireOrientation';
 import { ResultatsPage } from './pages/ResultatsPage';
 import { LoadingScreen } from './components/LoadingScreen';
 import { ErrorCard } from './components/ErrorCard';
-import { soumettreOrientation, getDemo, ErreurOrientation } from './services/api';
+import { soumettreOrientation, ErreurOrientation } from './services/api';
 import type { CodeErreur } from './services/api';
 import type { ResultatOrientation, DonneesFormulaire } from './types';
 import './App.css';
@@ -14,9 +14,8 @@ type EtapeApp = 'accueil' | 'formulaire' | 'chargement' | 'resultats' | 'erreur'
 function App() {
   const [etape, setEtape] = useState<EtapeApp>('accueil');
   const [resultats, setResultats] = useState<ResultatOrientation | null>(null);
-  const [modele, setModele] = useState<string | undefined>();
+  const [modele, setModele] = useState('');
   const [prenom, setPrenom] = useState('');
-  const [isDemo, setIsDemo] = useState(false);
   const [erreur, setErreur] = useState<{ message: string; code: CodeErreur }>({
     message: '',
     code: 'UNKNOWN',
@@ -36,7 +35,6 @@ function App() {
     setPrenom(data.profil.prenom);
     setDernierProfil(data);
     setEtape('chargement');
-    setIsDemo(false);
 
     const autreCompetence = data.competences.autreCompetence.trim();
 
@@ -69,24 +67,9 @@ function App() {
     }
   };
 
-  const handleVoirDemo = async () => {
-    setEtape('chargement');
-    try {
-      const response = await getDemo();
-      setResultats(response.data);
-      setModele(undefined);
-      setPrenom('Kofi');
-      setIsDemo(true);
-      setEtape('resultats');
-    } catch (error: unknown) {
-      afficherErreur(error);
-    }
-  };
-
   const handleRecommencer = () => {
     setResultats(null);
     setPrenom('');
-    setIsDemo(false);
     setDernierProfil(null);
     setEtape('accueil');
   };
@@ -94,7 +77,6 @@ function App() {
   // Retour au formulaire, pré-rempli avec les dernières réponses
   const handleModifier = () => {
     setResultats(null);
-    setIsDemo(false);
     setEtape('formulaire');
   };
 
@@ -122,8 +104,6 @@ function App() {
           <ErrorCard
             message={erreur.message}
             onRetry={peutReessayer ? handleReessayer : undefined}
-            onDemo={handleVoirDemo}
-            showDemo={true}
           />
           <button
             className="btn btn-ghost mt-4"
@@ -139,7 +119,6 @@ function App() {
           prenom={prenom}
           resultats={resultats}
           modele={modele}
-          isDemo={isDemo}
           onRecommencer={handleRecommencer}
           onModifier={handleModifier}
         />

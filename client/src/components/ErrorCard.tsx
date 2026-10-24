@@ -1,18 +1,14 @@
 import React from 'react';
-import { AlertCircle, RefreshCw, Play } from 'lucide-react';
+import { AlertCircle, RefreshCw } from 'lucide-react';
 
 interface ErrorCardProps {
   message: string;
   onRetry?: () => void;
-  onDemo?: () => void;
-  showDemo?: boolean;
 }
 
 export const ErrorCard: React.FC<ErrorCardProps> = ({
   message,
   onRetry,
-  onDemo,
-  showDemo = true,
 }) => {
   return (
     <div className="error-card">
@@ -28,18 +24,7 @@ export const ErrorCard: React.FC<ErrorCardProps> = ({
             Réessayer
           </button>
         )}
-        {showDemo && onDemo && (
-          <button className="btn btn-outline" onClick={onDemo}>
-            <Play size={16} />
-            Voir un exemple de démonstration
-          </button>
-        )}
       </div>
-      {showDemo && (
-        <p className="error-demo-note">
-          La démonstration utilise un profil fictif et ne représente pas une analyse IA en temps réel.
-        </p>
-      )}
     </div>
   );
 };

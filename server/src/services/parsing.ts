@@ -63,7 +63,8 @@ export function parseAiResponse(text: string | undefined): ValidationResult {
   return { ok: true, data };
 }
 
-// Complète chaque recommandation avec les données officielles du catalogue
+// Ajoute la fiche officielle de chaque filière choisie par Gemma (nom, description, prérequis).
+// Le choix, la justification, les débouchés et les conseils restent ceux de Gemma.
 export function enrichir(result: OrientationResponse): OrientationResult {
   return {
     ...result,
@@ -73,7 +74,6 @@ export function enrichir(result: OrientationResponse): OrientationResult {
       return {
         ...rec,
         nom: filiere.nom,
-        debouches: rec.debouches.length > 0 ? rec.debouches : filiere.debouches.slice(0, 3),
         description: filiere.description,
         prerequis: filiere.prerequis,
       };

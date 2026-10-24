@@ -29,7 +29,7 @@ const RecommandationSchema = z.object({
   nom: z.string(),
   justification: z.string().min(1),
   competencesARenforcer: z.array(z.string()).min(1),
-  debouches: z.array(z.string()),
+  debouches: z.array(z.string()).min(1),
   conseil: z.string().min(1),
 });
 
@@ -45,7 +45,7 @@ export const OrientationResponseSchema = z.object({
 
 export type OrientationResponse = z.infer<typeof OrientationResponseSchema>;
 
-// Réponse envoyée au client : recommandations complétées avec les données du catalogue
+// Réponse envoyée au client : l'orientation vient de Gemma, complétée par la fiche officielle du catalogue
 export type RecommandationEnrichie = z.infer<typeof RecommandationSchema> & {
   description: string;
   prerequis: string;

@@ -21,9 +21,8 @@ import { Logo } from '../components/Logo';
 interface ResultatsPageProps {
   prenom: string;
   resultats: ResultatOrientation;
-  // Modèle ayant généré l'analyse (absent en mode démonstration)
-  modele?: string;
-  isDemo: boolean;
+  // Modèle Gemma ayant généré l'analyse
+  modele: string;
   onRecommencer: () => void;
   onModifier: () => void;
 }
@@ -217,7 +216,6 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
   prenom,
   resultats,
   modele,
-  isDemo,
   onRecommencer,
   onModifier,
 }) => {
@@ -229,13 +227,6 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
 
   return (
     <div className="resultats-page">
-      {isDemo && (
-        <div className="demo-banner">
-          <AlertTriangle size={18} />
-          <strong>Mode Démonstration</strong> — Ce résultat utilise un profil fictif (Kofi, BAC C). Il ne représente pas une analyse IA en temps réel.
-        </div>
-      )}
-
       <div className="resultats-container">
         {/* Header résultats */}
         <div className="resultats-header print-header">
@@ -247,11 +238,9 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
             <p className="resultats-subtitle">
               OrientaTogo AI a analysé ton profil complet pour te proposer trois orientations adaptées.
             </p>
-            {modele && (
-              <p className="resultats-model">
-                <Cpu size={14} /> Analyse générée par {modele} via l'API Google Gemini
-              </p>
-            )}
+            <p className="resultats-model">
+              <Cpu size={14} /> Analyse générée par Gemma ({modele}) via l'API Google Gemini
+            </p>
           </div>
         </div>
 

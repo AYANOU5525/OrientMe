@@ -1,19 +1,19 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { ApiError, type GenerateContentParameters } from '@google/genai';
-import { demoResult, demoProfile } from './demo';
+import { exempleResultat, exempleProfil } from './exemple.fixture';
 import { OrientationRequestSchema } from '../schemas';
 import type { ModelCaller } from './gemini';
 
 // La configuration est lue au chargement du module : on fixe l'environnement avant l'import
 process.env.GEMINI_API_KEY = 'test-key';
-process.env.GEMINI_MODEL = 'model-a';
-process.env.GEMINI_FALLBACK_MODELS = 'model-b';
+process.env.GEMINI_MODEL = 'gemma-test-a';
+process.env.GEMINI_FALLBACK_MODELS = 'gemma-test-b';
 process.env.GEMINI_TIMEOUT_MS = '300';
 
 const loadService = () => import('./gemini');
-const profil = OrientationRequestSchema.parse(demoProfile);
-const validJson = JSON.stringify(demoResult);
+const profil = OrientationRequestSchema.parse(exempleProfil);
+const validJson = JSON.stringify(exempleResultat);
 
 // Faux appel à l'API : rejoue les réponses dans l'ordre et enregistre les requêtes
 function fakeCaller(...responses: Array<string | Error>) {
@@ -34,7 +34,7 @@ test('renvoie les recommandations enrichies et le modèle utilisé', async () =>
 
   const { result, model } = await getRecommendations(profil, caller);
 
-  assert.equal(model, 'model-a');
+  assert.equal(model, 'gemma-test-a');
   assert.equal(result.recommandations.length, 3);
   assert.ok(result.recommandations[0].description);
   assert.equal(calls[0].config?.responseMimeType, 'application/json');
@@ -47,7 +47,7 @@ test('demande une correction au modèle quand sa réponse est invalide', async (
 
   const { model } = await getRecommendations(profil, caller);
 
-  assert.equal(model, 'model-a');
+  assert.equal(model, 'gemma-test-a');
   assert.equal(calls.length, 2);
   const contents = calls[1].contents as Array<{ role: string; parts: Array<{ text: string }> }>;
   assert.equal(contents.length, 3);
@@ -60,8 +60,8 @@ test('bascule sur le modèle de secours en cas de quota épuisé', async () => {
 
   const { model } = await getRecommendations(profil, caller);
 
-  assert.equal(model, 'model-b');
-  assert.deepEqual(calls.map((c) => c.model), ['model-a', 'model-b']);
+  assert.equal(model, 'gemma-test-b');
+  assert.deepEqual(calls.map((c) => c.model), ['gemma-test-a', 'gemma-test-b']);
 });
 
 test('ne tente pas le modèle de secours si la clé API est refusée', async () => {
@@ -85,7 +85,7 @@ test('renvoie AI_TIMEOUT quand le budget de temps est dépassé', async () => {
 test('se passe du mode JSON natif si le modèle le refuse', async () => {
   const { getRecommendations } = await loadService();
   const { caller, calls } = fakeCaller(
-    new ApiError({ message: 'JSON mode is not enabled for models/model-a', status: 400 }),
+    new ApiError({ message: 'JSON mode is not enabled for models/gemma-test-a', status: 400 }),
     validJson
   );
 
@@ -96,10 +96,27 @@ test('se passe du mode JSON natif si le modèle le refuse', async () => {
   assert.equal(calls[1].config?.responseJsonSchema, undefined);
 });
 
+test('n\'accepte que des modèles Gemma', async () => {
+  const { parseModels } = await import('../config');
+
+  assert.deepEqual(parseModels(undefined, 'gemma-4-31b-it'), ['gemma-4-26b-a4b-it', 'gemma-4-31b-it']);
+  assert.throws(() => parseModels('gemini-2.5-flash', ''), /Gemma/);
+  assert.throws(() => parseModels('gemma-4-26b-a4b-it', 'gemma-4-31b-it, gpt-4o'), /gpt-4o/);
+});
+
+test('n\'envoie jamais de schéma JSON à Gemma', async () => {
+  const { getRecommendations } = await loadService();
+  const { caller, calls } = fakeCaller(validJson);
+
+  await getRecommendations(profil, caller);
+
+  assert.equal(calls[0].config?.responseJsonSchema, undefined);
+});
+
 test('intègre les règles au message si l\'instruction système est refusée', async () => {
   const { getRecommendations } = await loadService();
   const { caller, calls } = fakeCaller(
-    new ApiError({ message: 'Developer instruction is not enabled for models/model-a', status: 400 }),
+    new ApiError({ message: 'Developer instruction is not enabled for models/gemma-test-a', status: 400 }),
     validJson
   );
 

@@ -3,7 +3,7 @@ import { config, isAiConfigured } from '../config';
 import { AppError } from '../errors';
 import { OrientationRequest, OrientationResponse, OrientationResult } from '../schemas';
 import { enrichir, parseAiResponse } from './parsing';
-import { RESPONSE_JSON_SCHEMA, SYSTEM_INSTRUCTION, buildUserPrompt } from './prompt';
+import { SYSTEM_INSTRUCTION, buildUserPrompt } from './prompt';
 
 const MAX_ATTEMPTS_PER_MODEL = 2;
 
@@ -59,12 +59,12 @@ async function generate(
       config: {
         abortSignal: signal,
         temperature: 0.4,
-        maxOutputTokens: 8192,
+        // Une réponse complète fait ~900 jetons : la limite coupe vite une génération qui boucle
+        maxOutputTokens: 2048,
         ...(caps.systemInstruction && { systemInstruction: SYSTEM_INSTRUCTION }),
-        ...(caps.jsonMode && {
-          responseMimeType: 'application/json',
-          responseJsonSchema: RESPONSE_JSON_SCHEMA,
-        }),
+        // Pas de responseJsonSchema : avec un schéma imposé, Gemma 4 boucle (« humaniste-humaniste-… »)
+        // jusqu'à la limite de jetons ; sans schéma il répond en ~20 s, la validation Zod suffit
+        ...(caps.jsonMode && { responseMimeType: 'application/json' }),
         ...(config.thinkingLevel && { thinkingConfig: { thinkingLevel: config.thinkingLevel } }),
       },
     });

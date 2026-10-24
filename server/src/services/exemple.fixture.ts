@@ -1,7 +1,8 @@
 import { OrientationResponse } from '../schemas';
 
-// Résultat de démonstration préenregistré (profil fictif)
-export const demoResult: OrientationResponse = {
+// Réponse valide de référence (profil fictif de Kofi), utilisée uniquement par les tests.
+// Aucune orientation affichée à l'utilisateur ne provient de ce fichier : tout passe par Gemma.
+export const exempleResultat: OrientationResponse = {
   profil: {
     resume:
       'Kofi est un bachelier scientifique (BAC C) avec d\'excellentes performances en mathématiques et en physique. Il manifeste un fort intérêt pour l\'informatique et les nouvelles technologies, avec des aptitudes logiques et analytiques prononcées.',
@@ -75,7 +76,7 @@ export const demoResult: OrientationResponse = {
     'Ton profil scientifique solide t\'ouvre plusieurs portes prometteuses dans les domaines technologiques et de l\'ingénierie. Quel que soit ton choix final, souviens-toi que la curiosité, la persévérance et la pratique régulière sont tes meilleurs atouts. N\'hésite pas à consulter des professionnels en activité dans les domaines qui t\'intéressent — quelques échanges concrets valent mieux que de nombreuses recherches théoriques. Bon courage dans cette nouvelle étape !',
 };
 
-export const demoProfile = {
+export const exempleProfil = {
   prenom: 'Kofi',
   serieBAC: 'BAC C',
   notes: {

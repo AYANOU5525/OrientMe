@@ -63,12 +63,3 @@ export async function soumettreOrientation(demande: DemandeOrientation): Promise
     throw versErreurOrientation(error);
   }
 }
-
-export async function getDemo(): Promise<ApiResponse> {
-  try {
-    const response = await api.get<ApiResponse>('/demo');
-    return response.data;
-  } catch (error) {
-    throw versErreurOrientation(error);
-  }
-}

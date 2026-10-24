@@ -1,9 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { enrichir, extractJson, parseAiResponse } from './parsing';
-import { demoResult } from './demo';
+import { exempleResultat } from './exemple.fixture';
 
-const validJson = JSON.stringify(demoResult);
+const validJson = JSON.stringify(exempleResultat);
 
 test('extractJson lit un JSON entouré d\'un bloc Markdown ou de texte', () => {
   assert.deepEqual(extractJson('```json\n{"a":1}\n```'), { a: 1 });
@@ -16,8 +16,13 @@ test('parseAiResponse accepte une réponse conforme', () => {
   assert.equal(result.ok, true);
 });
 
+test('parseAiResponse accepte une réponse emballée dans un tableau (observé avec Gemma 4)', () => {
+  const result = parseAiResponse(`[\n  ${validJson}\n]`);
+  assert.equal(result.ok, true);
+});
+
 test('parseAiResponse normalise les identifiants de filière', () => {
-  const data = structuredClone(demoResult);
+  const data = structuredClone(exempleResultat);
   data.recommandations[0].filiereId = ' Informatique ';
   const result = parseAiResponse(JSON.stringify(data));
   assert.ok(result.ok);
@@ -25,11 +30,13 @@ test('parseAiResponse normalise les identifiants de filière', () => {
 });
 
 test('parseAiResponse rejette les réponses invalides avec une raison exploitable', () => {
-  const inconnue = structuredClone(demoResult);
+  const inconnue = structuredClone(exempleResultat);
   inconnue.recommandations[0].filiereId = 'astrophysique';
-  const doublon = structuredClone(demoResult);
+  const doublon = structuredClone(exempleResultat);
   doublon.recommandations[1].filiereId = 'informatique';
-  const incomplete = { ...demoResult, recommandations: demoResult.recommandations.slice(0, 2) };
+  const incomplete = { ...exempleResultat, recommandations: exempleResultat.recommandations.slice(0, 2) };
+  const sansDebouches = structuredClone(exempleResultat);
+  sansDebouches.recommandations[0].debouches = [];
 
   const cas: Array<[string | undefined, RegExp]> = [
     [undefined, /vide/],
@@ -37,6 +44,7 @@ test('parseAiResponse rejette les réponses invalides avec une raison exploitabl
     [JSON.stringify(inconnue), /astrophysique/],
     [JSON.stringify(doublon), /distinctes/],
     [JSON.stringify(incomplete), /recommandations/],
+    [JSON.stringify(sansDebouches), /debouches/],
   ];
 
   for (const [texte, raison] of cas) {
@@ -46,14 +54,14 @@ test('parseAiResponse rejette les réponses invalides avec une raison exploitabl
   }
 });
 
-test('enrichir reprend le nom officiel et ajoute les données du catalogue', () => {
-  const data = structuredClone(demoResult);
+test('enrichir ajoute la fiche du catalogue sans toucher au contenu de Gemma', () => {
+  const data = structuredClone(exempleResultat);
   data.recommandations[0].nom = 'Info';
-  data.recommandations[0].debouches = [];
 
   const rec = enrichir(data).recommandations[0];
   assert.equal(rec.nom, 'Informatique et Développement Logiciel');
-  assert.equal(rec.debouches.length, 3);
+  assert.deepEqual(rec.debouches, data.recommandations[0].debouches);
+  assert.equal(rec.justification, data.recommandations[0].justification);
   assert.ok(rec.description.length > 0);
   assert.ok(rec.prerequis.length > 0);
 });

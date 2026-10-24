@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, User, GraduationCap } from 'lucide-react';
+import { ChevronLeft, ChevronRight, User, GraduationCap, Wand2 } from 'lucide-react';
 import { ProgressBar } from '../components/ProgressBar';
 import type { DonneesFormulaire } from '../types';
 import {
+  PROFIL_EXEMPLE,
   SERIES_BAC,
   MATIERES_PAR_SERIE,
   COMPETENCES_LISTE,
@@ -55,6 +56,21 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, 
   }, [etape]);
 
   const matieres = serieBAC ? MATIERES_PAR_SERIE[serieBAC] || MATIERES_PAR_SERIE['Autre série'] : [];
+
+  // Pré-remplit le formulaire ; l'analyse passera quand même par Gemma
+  const remplirAvecExemple = () => {
+    const { profil, competences, aspirations } = PROFIL_EXEMPLE;
+    setPrenom(profil.prenom);
+    setSerieBAC(profil.serieBAC);
+    setNotes(Object.fromEntries(Object.entries(profil.notes).map(([m, n]) => [m, String(n)])));
+    setCompetencesSelectionnees(competences.competences);
+    setAutreCompetence(competences.autreCompetence);
+    setDomainesInteret(aspirations.domainesInteret);
+    setMetierSouhaite(aspirations.metierSouhaite);
+    setLoisirs(aspirations.loisirs);
+    setPreferenceFormation(aspirations.preferenceFormation);
+    setErrors({});
+  };
 
   const toggleItem = <T extends string>(list: T[], item: T, setter: (v: T[]) => void) => {
     if (list.includes(item)) {
@@ -152,6 +168,10 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, 
             <p className="form-etape-subtitle">
               Ces informations nous aident à comprendre ton parcours académique.
             </p>
+
+            <button type="button" className="btn btn-outline btn-sm btn-exemple" onClick={remplirAvecExemple}>
+              <Wand2 size={14} /> Remplir avec un profil exemple (Kofi, BAC C)
+            </button>
 
             {/* Prénom */}
             <div className="form-group">

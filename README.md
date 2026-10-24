@@ -15,6 +15,8 @@ OrientaTogo AI analyse trois dimensions du profil d'un étudiant :
 
 Le modèle **Gemma 4**, servi par l'**API Google Gemini**, génère **trois recommandations de filières** personnalisées, choisies dans un catalogue de 15 filières, avec justifications, compétences à renforcer, débouchés et conseils.
 
+> **Toute orientation passe par Gemma.** Aucun résultat préenregistré n'est jamais affiché, et le serveur refuse de démarrer si un modèle autre que Gemma est configuré.
+
 ---
 
 ## 🚀 Lancement rapide
@@ -65,19 +67,19 @@ L'application est disponible sur **http://localhost:5173**. En développement, V
 | Variable (`server/.env`) | Défaut | Rôle |
 |---|---|---|
 | `GEMINI_API_KEY` | — | Clé Google AI Studio (obligatoire hors démo) |
-| `GEMINI_MODEL` | `gemma-4-26b-a4b-it` | Modèle principal |
-| `GEMINI_FALLBACK_MODELS` | `gemma-4-31b-it` | Modèles de secours, séparés par des virgules (vide = aucun) |
+| `GEMINI_MODEL` | `gemma-4-26b-a4b-it` | Modèle principal (Gemma obligatoire) |
+| `GEMINI_FALLBACK_MODELS` | `gemma-4-31b-it` | Modèles de secours Gemma, séparés par des virgules (vide = aucun) |
 | `GEMINI_TIMEOUT_MS` | `60000` | Budget total d'une analyse, tous modèles confondus |
 | `GEMINI_THINKING_LEVEL` | — | Optionnel : `minimal` ou `high` (réflexion du modèle) |
 | `CORS_ORIGINS` | ports localhost de Vite | Origines autorisées, séparées par des virgules |
 
 Déroulement d'une analyse (`server/src/services/gemini.ts`) :
 1. **Prompt** : les règles et le catalogue détaillé (description, matières clés, compétences utiles, prérequis) sont envoyés en instruction système ; le profil de l'étudiant en message utilisateur. Le prénom n'est jamais transmis au modèle.
-2. **Sortie JSON** : le mode JSON natif est demandé avec un schéma qui restreint `filiereId` aux identifiants du catalogue. Si un modèle refuse le mode JSON ou l'instruction système (cas de certains modèles Gemma), le serveur bascule automatiquement sur un JSON guidé par le prompt et mémorise ce choix.
+2. **Sortie JSON** : le mode JSON natif est demandé, **sans schéma imposé** : avec un schéma, Gemma 4 tombe dans des boucles de répétition jusqu'à la limite de jetons ; sans schéma, il répond en ~20 s. Si un modèle refuse le mode JSON ou l'instruction système (cas de Gemma 3), le serveur bascule automatiquement sur un JSON guidé par le prompt et mémorise ce choix.
 3. **Validation** : la réponse est extraite (même entourée de Markdown), validée par Zod, puis vérifiée contre le catalogue (3 filières distinctes et existantes).
 4. **Auto-correction** : si la réponse est invalide, la raison est renvoyée au modèle, qui a une seconde chance.
 5. **Secours** : en cas de quota épuisé (429), de surcharge (5xx), de modèle introuvable (404) ou de réponse toujours invalide, le modèle suivant de `GEMINI_FALLBACK_MODELS` prend le relais.
-6. **Enrichissement** : le nom officiel, la description et les prérequis de chaque filière sont ajoutés depuis le catalogue.
+6. **Fiche filière** : le nom officiel, la description et les prérequis de chaque filière choisie par Gemma sont ajoutés depuis le catalogue. Le choix, la justification, les compétences, les débouchés et les conseils viennent uniquement de Gemma.
 
 ---
 
@@ -108,7 +110,7 @@ OrientMe/
     │   │   ├── gemini.ts      # Appel Gemma : secours, auto-correction, timeout
     │   │   ├── prompt.ts      # Instruction système, prompt, schéma JSON
     │   │   ├── parsing.ts     # Extraction, validation et enrichissement
-    │   │   └── demo.ts        # Données de démonstration
+    │   │   └── exemple.fixture.ts # Réponse de référence pour les tests (hors build)
     │   ├── data/
     │   │   └── filieres.json  # Catalogue des 15 filières
     │   └── index.ts           # Serveur Express
@@ -130,12 +132,11 @@ GEMINI_API_KEY=AIzaSy...ta_cle...
 
 ---
 
-## 🎭 Mode Démonstration
+## 🧪 Profil exemple
 
-Si l'IA n'est pas disponible ou la clé non configurée :
-- Un message d'erreur clair s'affiche
-- L'utilisateur peut choisir de voir une démonstration avec un profil fictif (Kofi, BAC C)
-- Le mode démo est **toujours clairement identifié** comme simulation
+Le bouton **« Remplir avec un profil exemple (Kofi, BAC C) »** de la première étape pré-remplit le formulaire, pratique pour une présentation. L'analyse est ensuite faite par Gemma, comme pour n'importe quel profil.
+
+Si Gemma n'est pas disponible (clé absente, quota, délai), un message d'erreur clair s'affiche : aucun résultat de substitution n'est proposé.
 
 ---
 
@@ -144,7 +145,6 @@ Si l'IA n'est pas disponible ou la clé non configurée :
 | Méthode | Route | Description |
 |---------|-------|-------------|
 | POST | `/api/orientation` | Analyse du profil par Gemma |
-| GET | `/api/demo` | Résultat de démonstration |
 | GET | `/api/filieres` | Catalogue des filières |
 | GET | `/health` | Statut du serveur et de la configuration IA |
 

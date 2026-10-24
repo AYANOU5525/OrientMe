@@ -20,15 +20,25 @@ function parseThinkingLevel(value: string | undefined): ThinkingLevel | undefine
   return undefined;
 }
 
+// Toute orientation doit être produite par un modèle Gemma : un autre modèle bloque le démarrage
+export function parseModels(primary: string | undefined, fallbacks: string): string[] {
+  const models = [...new Set([primary?.trim() || 'gemma-4-26b-a4b-it', ...parseList(fallbacks)])];
+  const nonGemma = models.filter((model) => !/^gemma-/i.test(model));
+  if (nonGemma.length > 0) {
+    throw new Error(
+      `Seuls les modèles Gemma sont autorisés dans GEMINI_MODEL et GEMINI_FALLBACK_MODELS (refusé : ${nonGemma.join(', ')}).`
+    );
+  }
+  return models;
+}
+
 const apiKey = process.env.GEMINI_API_KEY?.trim() ?? '';
-const primaryModel = process.env.GEMINI_MODEL?.trim() || 'gemma-4-26b-a4b-it';
-const fallbackModels = parseList(process.env.GEMINI_FALLBACK_MODELS ?? 'gemma-4-31b-it');
 
 export const config = {
   port: Number(process.env.PORT) || 3001,
   geminiApiKey: apiKey === PLACEHOLDER_KEY ? '' : apiKey,
   // Modèle principal puis modèles de secours, essayés dans cet ordre
-  models: [...new Set([primaryModel, ...fallbackModels])],
+  models: parseModels(process.env.GEMINI_MODEL, process.env.GEMINI_FALLBACK_MODELS ?? 'gemma-4-31b-it'),
   // Budget total d'une analyse, tous modèles et tentatives confondus
   timeoutMs: Number(process.env.GEMINI_TIMEOUT_MS) || 60_000,
   thinkingLevel: parseThinkingLevel(process.env.GEMINI_THINKING_LEVEL),

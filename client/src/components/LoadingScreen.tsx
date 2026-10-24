@@ -33,9 +33,9 @@ export const LoadingScreen: React.FC = () => {
           <Sparkles size={16} className="sparkle sparkle-3" />
         </div>
 
-        <h2 className="loading-title">OrientaTogo AI analyse ton profil</h2>
+        <h2 className="loading-title">Gemma analyse ton profil</h2>
         <p className="loading-subtitle">
-          Notre intelligence artificielle croise tes données pour te proposer les filières les plus adaptées.
+          Le modèle d'IA Gemma de Google croise tes données pour te proposer les filières les plus adaptées.
         </p>
 
         <div className="loading-steps">
@@ -65,7 +65,7 @@ export const LoadingScreen: React.FC = () => {
             }}
           />
         </div>
-        <p className="loading-hint">Cette analyse peut prendre jusqu'à une minute...</p>
+        <p className="loading-hint">Cette analyse prend généralement une vingtaine de secondes...</p>
       </div>
     </div>
   );

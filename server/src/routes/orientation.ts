@@ -2,8 +2,6 @@ import { Router } from 'express';
 import { filieres } from '../catalog';
 import { OrientationRequestSchema } from '../schemas';
 import { getRecommendations } from '../services/gemini';
-import { enrichir } from '../services/parsing';
-import { demoResult, demoProfile } from '../services/demo';
 import { rateLimit } from '../middleware/rateLimit';
 
 export const orientationRouter = Router();
@@ -31,16 +29,6 @@ orientationRouter.post(
     }
   }
 );
-
-// GET /api/demo — résultat de démonstration
-orientationRouter.get('/demo', (_req, res) => {
-  res.json({
-    success: true,
-    isDemo: true,
-    profile: demoProfile,
-    data: enrichir(demoResult),
-  });
-});
 
 // GET /api/filieres — catalogue complet
 orientationRouter.get('/filieres', (_req, res) => {
