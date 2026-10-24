@@ -1,0 +1,317 @@
+[
+  {
+    "id": "informatique",
+    "nom": "Informatique et Développement Logiciel",
+    "description": "Formation aux fondements de l'informatique, à la programmation, aux bases de données et au développement d'applications web et mobiles.",
+    "domaines": ["Informatique et numérique", "Sciences et ingénierie"],
+    "matieresPertinentes": ["Mathématiques", "Physique-Chimie"],
+    "competencesUtiles": ["Programmer", "Résoudre des problèmes logiques", "Utiliser les outils informatiques", "Analyser des informations"],
+    "debouches": [
+      "Développeur logiciel",
+      "Ingénieur en intelligence artificielle",
+      "Administrateur de bases de données",
+      "Analyste programmeur",
+      "Développeur web/mobile"
+    ],
+    "pointsVigilance": [
+      "Nécessite de solides bases en mathématiques logiques",
+      "Domaine en évolution rapide, requiert une veille technologique permanente",
+      "Sédentarité importante, prévoir une activité physique complémentaire"
+    ],
+    "prerequis": "Bonnes bases en mathématiques, logique et curiosité technologique"
+  },
+  {
+    "id": "reseaux",
+    "nom": "Réseaux et Télécommunications",
+    "description": "Étude des infrastructures réseau, des systèmes de communication, de la cybersécurité et de l'administration des systèmes informatiques.",
+    "domaines": ["Informatique et numérique", "Sciences et ingénierie"],
+    "matieresPertinentes": ["Mathématiques", "Physique-Chimie"],
+    "competencesUtiles": ["Résoudre des problèmes logiques", "Utiliser les outils informatiques", "Réaliser des activités pratiques ou techniques"],
+    "debouches": [
+      "Administrateur réseau",
+      "Ingénieur en cybersécurité",
+      "Technicien télécommunications",
+      "Architecte réseau",
+      "Consultant en sécurité informatique"
+    ],
+    "pointsVigilance": [
+      "Exige une rigueur technique élevée",
+      "Formations souvent avec volet pratique important",
+      "Secteur très compétitif au niveau international"
+    ],
+    "prerequis": "Bases en physique et mathématiques, intérêt pour les systèmes techniques"
+  },
+  {
+    "id": "comptabilite",
+    "nom": "Comptabilité et Gestion",
+    "description": "Formation à la tenue des comptes, à l'analyse financière, à la gestion d'entreprise et aux outils de contrôle de gestion.",
+    "domaines": ["Gestion et finance", "Commerce et entrepreneuriat"],
+    "matieresPertinentes": ["Mathématiques", "Économie", "Comptabilité"],
+    "competencesUtiles": ["Gérer de l'argent", "Analyser des informations", "Organiser des activités", "Travailler en équipe"],
+    "debouches": [
+      "Comptable d'entreprise",
+      "Contrôleur de gestion",
+      "Expert-comptable",
+      "Auditeur financier",
+      "Responsable administratif et financier"
+    ],
+    "pointsVigilance": [
+      "Travail parfois répétitif et sous pression des délais fiscaux",
+      "Nécessite une grande rigueur et une attention aux détails",
+      "Exige une mise à jour régulière des connaissances réglementaires"
+    ],
+    "prerequis": "Intérêt pour les chiffres, rigueur, aptitudes organisationnelles"
+  },
+  {
+    "id": "finance",
+    "nom": "Finance et Banque",
+    "description": "Étude des marchés financiers, de la gestion de patrimoine, des produits bancaires et des mécanismes d'investissement.",
+    "domaines": ["Gestion et finance"],
+    "matieresPertinentes": ["Mathématiques", "Économie"],
+    "competencesUtiles": ["Gérer de l'argent", "Analyser des informations", "Convaincre et négocier", "Résoudre des problèmes logiques"],
+    "debouches": [
+      "Analyste financier",
+      "Chargé de clientèle bancaire",
+      "Gestionnaire de patrimoine",
+      "Trader",
+      "Conseiller en investissement"
+    ],
+    "pointsVigilance": [
+      "Secteur exigeant une grande capacité d'adaptation",
+      "Pression liée aux résultats financiers",
+      "Évolutions réglementaires fréquentes"
+    ],
+    "prerequis": "Solides bases en mathématiques et économie, sang-froid et esprit d'analyse"
+  },
+  {
+    "id": "marketing",
+    "nom": "Marketing et Commerce",
+    "description": "Formation aux stratégies commerciales, au marketing digital, à la communication client et au management des ventes.",
+    "domaines": ["Commerce et entrepreneuriat", "Communication et médias"],
+    "matieresPertinentes": ["Français", "Économie", "Anglais"],
+    "competencesUtiles": ["Communiquer facilement", "Convaincre et négocier", "Entreprendre", "Analyser des informations", "Travailler en équipe"],
+    "debouches": [
+      "Responsable marketing",
+      "Commercial terrain",
+      "Chef de produit",
+      "Chargé de communication",
+      "Community manager"
+    ],
+    "pointsVigilance": [
+      "Demande une bonne maîtrise des outils numériques",
+      "Secteur très compétitif",
+      "Résultats souvent liés aux chiffres de vente"
+    ],
+    "prerequis": "Aisance relationnelle, créativité, intérêt pour les comportements consommateurs"
+  },
+  {
+    "id": "communication",
+    "nom": "Communication et Médias",
+    "description": "Formation aux techniques rédactionnelles, journalistiques, audiovisuelles et aux stratégies de communication institutionnelle.",
+    "domaines": ["Communication et médias", "Arts et création"],
+    "matieresPertinentes": ["Français", "Anglais", "Histoire-Géographie"],
+    "competencesUtiles": ["Écrire et rédiger", "Communiquer facilement", "Analyser des informations", "Dessiner et créer"],
+    "debouches": [
+      "Journaliste",
+      "Chargé de communication",
+      "Attaché de presse",
+      "Rédacteur web",
+      "Community manager"
+    ],
+    "pointsVigilance": [
+      "Marché de l'emploi parfois limité dans le secteur formel",
+      "Exige polyvalence et capacité d'adaptation",
+      "Pression des délais de publication"
+    ],
+    "prerequis": "Excellente maîtrise du français, curiosité intellectuelle, facilité d'expression"
+  },
+  {
+    "id": "droit",
+    "nom": "Droit",
+    "description": "Étude des règles juridiques régissant la société : droit civil, commercial, public, international et procédures judiciaires.",
+    "domaines": ["Droit"],
+    "matieresPertinentes": ["Français", "Histoire-Géographie", "Philosophie"],
+    "competencesUtiles": ["Analyser des informations", "Écrire et rédiger", "Communiquer facilement", "Convaincre et négocier"],
+    "debouches": [
+      "Avocat",
+      "Magistrat",
+      "Notaire",
+      "Juriste d'entreprise",
+      "Fonctionnaire (concours administratifs)"
+    ],
+    "pointsVigilance": [
+      "Cursus long (Licence, Master, doctorat ou concours)",
+      "Exige une capacité mémorielle importante",
+      "Marchés des professions libérales parfois saturés"
+    ],
+    "prerequis": "Excellente expression écrite et orale, rigueur analytique, intérêt pour la justice"
+  },
+  {
+    "id": "sciences-eco",
+    "nom": "Sciences Économiques",
+    "description": "Analyse des mécanismes économiques, des politiques publiques, des échanges internationaux et du comportement des agents économiques.",
+    "domaines": ["Gestion et finance", "Sciences et ingénierie"],
+    "matieresPertinentes": ["Économie", "Mathématiques", "Histoire-Géographie"],
+    "competencesUtiles": ["Analyser des informations", "Résoudre des problèmes logiques", "Écrire et rédiger"],
+    "debouches": [
+      "Économiste",
+      "Statisticien",
+      "Planificateur",
+      "Chercheur en sciences sociales",
+      "Conseiller en politique économique"
+    ],
+    "pointsVigilance": [
+      "Débouchés limités dans le secteur privé sans spécialisation",
+      "Formation essentiellement théorique en premiers cycles",
+      "Nécessite souvent un Master pour accéder à des postes qualifiés"
+    ],
+    "prerequis": "Intérêt pour l'analyse macroéconomique, bases solides en mathématiques"
+  },
+  {
+    "id": "maths-sciences",
+    "nom": "Mathématiques et Sciences Pures",
+    "description": "Étude approfondie des mathématiques, de la physique et de la chimie, orientée vers la recherche, l'enseignement ou l'ingénierie.",
+    "domaines": ["Sciences et ingénierie"],
+    "matieresPertinentes": ["Mathématiques", "Physique-Chimie", "SVT"],
+    "competencesUtiles": ["Résoudre des problèmes logiques", "Analyser des informations"],
+    "debouches": [
+      "Enseignant-chercheur",
+      "Ingénieur R&D",
+      "Statisticien",
+      "Actuaire",
+      "Physicien"
+    ],
+    "pointsVigilance": [
+      "Parcours exigeant intellectuellement",
+      "Débouchés directs limités sans Master",
+      "Orientation vers l'enseignement souvent inévitable"
+    ],
+    "prerequis": "Excellence en mathématiques et sciences exactes, goût pour l'abstraction"
+  },
+  {
+    "id": "genie-civil",
+    "nom": "Génie Civil et BTP",
+    "description": "Formation à la conception, à la construction et à la réhabilitation des infrastructures : bâtiments, routes, ponts, réseaux hydrauliques.",
+    "domaines": ["Sciences et ingénierie"],
+    "matieresPertinentes": ["Mathématiques", "Physique-Chimie"],
+    "competencesUtiles": ["Résoudre des problèmes logiques", "Réaliser des activités pratiques ou techniques", "Organiser des activités", "Travailler en équipe"],
+    "debouches": [
+      "Ingénieur en bâtiment et travaux publics",
+      "Chef de chantier",
+      "Conducteur de travaux",
+      "Projeteur BIM",
+      "Gestionnaire de projets d'infrastructure"
+    ],
+    "pointsVigilance": [
+      "Travail fréquent sur le terrain dans des conditions variables",
+      "Nécessite une bonne résistance physique",
+      "Responsabilités importantes liées à la sécurité des ouvrages"
+    ],
+    "prerequis": "Solides bases en mathématiques et physique, sens pratique, goût pour le terrain"
+  },
+  {
+    "id": "genie-electrique",
+    "nom": "Génie Électrique et Électronique",
+    "description": "Étude des systèmes électriques, de l'électronique embarquée, des automatismes et de l'énergie renouvelable.",
+    "domaines": ["Sciences et ingénierie"],
+    "matieresPertinentes": ["Mathématiques", "Physique-Chimie"],
+    "competencesUtiles": ["Résoudre des problèmes logiques", "Réaliser des activités pratiques ou techniques", "Utiliser les outils informatiques"],
+    "debouches": [
+      "Ingénieur électricien",
+      "Automaticien",
+      "Technicien en énergies renouvelables",
+      "Électronicien",
+      "Ingénieur en systèmes embarqués"
+    ],
+    "pointsVigilance": [
+      "Risques liés à la manipulation de courants électriques",
+      "Formation pratique indispensable",
+      "Secteur en mutation avec les énergies vertes"
+    ],
+    "prerequis": "Excellentes bases en physique et mathématiques, minutie technique"
+  },
+  {
+    "id": "agronomie",
+    "nom": "Agronomie et Sciences Agricoles",
+    "description": "Formation à la production végétale, animale, à l'agroalimentaire, à la gestion des ressources naturelles et au développement rural.",
+    "domaines": ["Agriculture et environnement"],
+    "matieresPertinentes": ["SVT", "Physique-Chimie", "Mathématiques"],
+    "competencesUtiles": ["Analyser des informations", "Réaliser des activités pratiques ou techniques", "Organiser des activités"],
+    "debouches": [
+      "Ingénieur agronome",
+      "Technicien agricole",
+      "Consultant en développement rural",
+      "Responsable d'exploitation agricole",
+      "Agent de développement territorial"
+    ],
+    "pointsVigilance": [
+      "Travail souvent en milieu rural et en plein air",
+      "Revenus variables selon le secteur public ou privé",
+      "Dépendance aux politiques agricoles nationales"
+    ],
+    "prerequis": "Intérêt pour les sciences naturelles et le développement durable, sens pratique"
+  },
+  {
+    "id": "sante",
+    "nom": "Sciences de la Santé",
+    "description": "Formations paramédicales et médicales incluant infirmerie, sage-femme, pharmacie, biologie médicale et santé publique.",
+    "domaines": ["Santé"],
+    "matieresPertinentes": ["SVT", "Physique-Chimie", "Mathématiques"],
+    "competencesUtiles": ["Aider et accompagner les autres", "Analyser des informations", "Réaliser des activités pratiques ou techniques", "Travailler en équipe"],
+    "debouches": [
+      "Infirmier(ère)",
+      "Sage-femme",
+      "Pharmacien",
+      "Biologiste médical",
+      "Agent de santé publique"
+    ],
+    "pointsVigilance": [
+      "Concours d'entrée compétitifs",
+      "Parcours long et exigeant",
+      "Pression émotionnelle liée au contact avec la souffrance"
+    ],
+    "prerequis": "Solides bases en SVT et chimie, vocation de service, résistance émotionnelle"
+  },
+  {
+    "id": "enseignement",
+    "nom": "Sciences de l'Éducation et Enseignement",
+    "description": "Formation aux méthodologies pédagogiques, à la psychologie de l'éducation et à l'enseignement dans les cycles primaire, secondaire ou supérieur.",
+    "domaines": ["Éducation"],
+    "matieresPertinentes": ["Français", "Philosophie", "Histoire-Géographie"],
+    "competencesUtiles": ["Communiquer facilement", "Aider et accompagner les autres", "Organiser des activités", "Écrire et rédiger"],
+    "debouches": [
+      "Enseignant du primaire ou secondaire",
+      "Conseiller pédagogique",
+      "Formateur professionnel",
+      "Responsable de centre éducatif",
+      "Inspecteur de l'enseignement"
+    ],
+    "pointsVigilance": [
+      "Accès souvent conditionné à des concours de la fonction publique",
+      "Conditions de travail variables selon les zones géographiques",
+      "Évolution de carrière parfois lente"
+    ],
+    "prerequis": "Patience, sens de la communication, vocation pour la transmission du savoir"
+  },
+  {
+    "id": "design-numerique",
+    "nom": "Design et Création Numérique",
+    "description": "Formation à la création graphique, au design d'interface, à l'animation 2D/3D, à la photographie et à la production audiovisuelle.",
+    "domaines": ["Arts et création", "Communication et médias", "Informatique et numérique"],
+    "matieresPertinentes": ["Français", "Philosophie"],
+    "competencesUtiles": ["Dessiner et créer", "Utiliser les outils informatiques", "Communiquer facilement", "Programmer"],
+    "debouches": [
+      "Graphiste",
+      "Designer UI/UX",
+      "Motion designer",
+      "Photographe professionnel",
+      "Directeur artistique"
+    ],
+    "pointsVigilance": [
+      "Marché freelance prédominant, revenus instables au début",
+      "Nécessite un portfolio solide pour trouver des clients",
+      "Évolution rapide des outils numériques"
+    ],
+    "prerequis": "Sens esthétique développé, créativité, maîtrise des outils numériques de création"
+  }
+]

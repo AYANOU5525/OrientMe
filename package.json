@@ -1,0 +1,12 @@
+{
+  "name": "orientatogo-ai",
+  "version": "1.0.0",
+  "description": "OrientaTogo AI — Orientation post-BAC par IA pour le Togo",
+  "scripts": {
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "install:all": "cd client && npm install && cd ../server && npm install"
+  },
+  "keywords": ["orientation", "togo", "edtech", "gemini", "ia"],
+  "author": "OrientaTogo AI Team"
+}

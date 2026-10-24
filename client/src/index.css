@@ -1,0 +1,3 @@
+/* index.css - styles globaux minimaux, tout est dans App.css */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
