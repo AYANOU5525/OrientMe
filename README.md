@@ -181,6 +181,6 @@ Les tests (`server/src/**/*.test.ts`, runner natif de Node) simulent l'API Gemin
 
 ---
 
-## 🏆 Hackathon Togo 2024
+## 🏆 Hackathon Togo 2026
 
 Projet réalisé dans le cadre d'un hackathon au Togo pour aider les nouveaux bacheliers à s'orienter vers les filières universitaires et professionnelles adaptées à leur profil.
