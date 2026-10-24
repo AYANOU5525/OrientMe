@@ -8,9 +8,13 @@ import {
   Printer,
   RotateCcw,
   Sparkles,
+  Building2,
+  Share2,
 } from 'lucide-react';
 import type { PlanRentree } from '../types';
 import { Logo } from '../components/Logo';
+import { ListeEtablissements } from '../components/ListeEtablissements';
+import { partagerSurWhatsApp, textePlan } from '../services/partage';
 
 interface PreparationPageProps {
   prenom: string;
@@ -79,6 +83,16 @@ export const PreparationPage: React.FC<PreparationPageProps> = ({
           </div>
         </section>
 
+        {plan.etablissements && plan.etablissements.length > 0 && (
+          <section className="prep-section">
+            <h2 className="prep-section-title">
+              <Building2 size={22} /> Où étudier au Togo
+            </h2>
+            {plan.duree && <p className="prep-intro">Durée des études : {plan.duree}.</p>}
+            <ListeEtablissements etablissements={plan.etablissements} />
+          </section>
+        )}
+
         {plan.ressources.length > 0 && (
           <section className="prep-section">
             <h2 className="prep-section-title">
@@ -116,6 +130,9 @@ export const PreparationPage: React.FC<PreparationPageProps> = ({
           </button>
           <button className="btn btn-outline" onClick={() => window.print()}>
             <Printer size={16} /> Imprimer mon plan
+          </button>
+          <button className="btn btn-whatsapp" onClick={() => partagerSurWhatsApp(textePlan(prenom, plan))}>
+            <Share2 size={16} /> Partager sur WhatsApp
           </button>
           <button className="btn btn-outline" onClick={onRecommencer}>
             <RotateCcw size={16} /> Refaire mon orientation

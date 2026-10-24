@@ -14,13 +14,22 @@ import {
   X,
   BookOpen,
   GraduationCap,
+  Building2,
+  Share2,
 } from 'lucide-react';
-import type { ResultatOrientation, Recommandation } from '../types';
+import type { DemandeOrientation, ResultatOrientation, Recommandation } from '../types';
 import { Logo } from '../components/Logo';
+import { ListeEtablissements } from '../components/ListeEtablissements';
+import { ComparateurFilieres } from '../components/ComparateurFilieres';
+import { ChatOrienteme } from '../components/ChatOrienteme';
+import { AvisUtilite } from '../components/AvisUtilite';
+import { partagerSurWhatsApp, texteResultats } from '../services/partage';
 
 interface ResultatsPageProps {
   prenom: string;
   resultats: ResultatOrientation;
+  // Profil envoyé à l'IA : contexte de la discussion et notes du comparateur (absent si inconnu)
+  demande?: DemandeOrientation;
   // Filière retenue par l'étudiant : déclenche le plan de rentrée
   onChoisir: (recommandation: Recommandation) => void;
   onRecommencer: () => void;
@@ -70,6 +79,11 @@ const DetailModal: React.FC<ModalProps> = ({ recommandation, onClose, onChoisir 
                   <strong>Prérequis :</strong> {recommandation.prerequis}
                 </p>
               )}
+              {recommandation.duree && (
+                <p className="modal-text modal-prerequis">
+                  <strong>Durée :</strong> {recommandation.duree}
+                </p>
+              )}
             </section>
           )}
 
@@ -104,6 +118,15 @@ const DetailModal: React.FC<ModalProps> = ({ recommandation, onClose, onChoisir 
               ))}
             </div>
           </section>
+
+          {recommandation.etablissements && recommandation.etablissements.length > 0 && (
+            <section className="modal-section">
+              <h4 className="modal-section-title">
+                <Building2 size={16} /> Où étudier au Togo
+              </h4>
+              <ListeEtablissements etablissements={recommandation.etablissements} />
+            </section>
+          )}
 
           <section className="modal-section conseil-section">
             <h4 className="modal-section-title">
@@ -225,6 +248,7 @@ const RecommandationCard: React.FC<{
 export const ResultatsPage: React.FC<ResultatsPageProps> = ({
   prenom,
   resultats,
+  demande,
   onChoisir,
   onRecommencer,
   onModifier,
@@ -302,6 +326,8 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
           </div>
         </div>
 
+        <ComparateurFilieres recommandations={resultats.recommandations} notes={demande?.notes} />
+
         {/* Conseil général */}
         <div className="conseil-general-card">
           <h2 className="conseil-title">
@@ -309,6 +335,10 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
           </h2>
           <p className="conseil-text">{resultats.conseilGeneral}</p>
         </div>
+
+        {demande && <ChatOrienteme demande={demande} recommandations={resultats.recommandations} />}
+
+        <AvisUtilite />
 
         {/* Avertissement */}
         <div className="disclaimer-card">
@@ -328,6 +358,9 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
           </button>
           <button className="btn btn-outline" onClick={handlePrint}>
             <Printer size={16} /> Imprimer mes résultats
+          </button>
+          <button className="btn btn-whatsapp" onClick={() => partagerSurWhatsApp(texteResultats(prenom, resultats))}>
+            <Share2 size={16} /> Partager sur WhatsApp
           </button>
         </div>
       </div>

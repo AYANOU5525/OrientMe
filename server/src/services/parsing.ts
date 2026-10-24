@@ -1,6 +1,8 @@
 import { z } from 'zod';
-import { filieresById } from '../catalog';
+import { etablissementsPour, filieresById } from '../catalog';
 import {
+  ChatResponse,
+  ChatResponseSchema,
   OrientationResponse,
   OrientationResponseSchema,
   OrientationResult,
@@ -75,6 +77,10 @@ export function parsePreparation(text: string | undefined): ValidationResult<Pre
   return parseJson(text, PreparationResponseSchema);
 }
 
+export function parseChat(text: string | undefined): ValidationResult<ChatResponse> {
+  return parseJson(text, ChatResponseSchema);
+}
+
 // Ajoute la fiche officielle de chaque filière choisie par Gemma (nom, description, prérequis).
 // Le choix, la justification, les débouchés et les conseils restent ceux de Gemma.
 export function enrichir(result: OrientationResponse): OrientationResult {
@@ -88,6 +94,9 @@ export function enrichir(result: OrientationResponse): OrientationResult {
         nom: filiere.nom,
         description: filiere.description,
         prerequis: filiere.prerequis,
+        duree: filiere.duree,
+        matieresPertinentes: filiere.matieresPertinentes,
+        etablissements: etablissementsPour(filiere.id).map(({ filieres: _, ...etablissement }) => etablissement),
       };
     }),
   };

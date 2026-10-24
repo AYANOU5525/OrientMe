@@ -1,5 +1,7 @@
 import express, { ErrorRequestHandler } from 'express';
 import cors from 'cors';
+import { existsSync } from 'fs';
+import { join } from 'path';
 import { config, isAiConfigured } from './config';
 import { AppError } from './errors';
 import { orientationRouter } from './routes/orientation';
@@ -7,14 +9,16 @@ import { orientationRouter } from './routes/orientation';
 const app = express();
 
 app.disable('x-powered-by');
+if (config.trustProxy) app.set('trust proxy', 1);
 
 app.use(cors({
   origin: config.corsOrigins,
   methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-app.use(express.json({ limit: '10kb' }));
+// Assez pour une discussion avec son historique (12 messages au plus)
+app.use(express.json({ limit: '64kb' }));
 
 app.use('/api', orientationRouter);
 
@@ -25,6 +29,15 @@ app.get('/health', (_req, res) => {
     ai: { configured: isAiConfigured(), models: config.models },
   });
 });
+
+// En production, le serveur distribue aussi l'interface compilée (client/dist) : un seul service à héberger
+const clientDist = join(__dirname, '../../client/dist');
+if (existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.get(/^(?!\/api\/|\/health$).*/, (_req, res) => {
+    res.sendFile(join(clientDist, 'index.html'));
+  });
+}
 
 // Handler 404
 app.use((_req, res) => {
@@ -52,9 +65,13 @@ app.use(errorHandler);
 app.listen(config.port, () => {
   console.log(`✅ Serveur Orienteme démarré sur http://localhost:${config.port}`);
   console.log(`📋 Modèles (ordre d'essai) : ${config.models.join(' → ')}`);
+  if (existsSync(clientDist)) console.log('🌐 Interface distribuée depuis client/dist');
 
   if (!isAiConfigured()) {
     console.warn('⚠️  AVERTISSEMENT: GEMINI_API_KEY non configurée dans server/.env');
-    console.warn('   Seul le mode démonstration sera disponible.');
+    console.warn('   Aucune orientation ne pourra être générée.');
+  }
+  if (!config.adminToken) {
+    console.log('ℹ️  Espace conseillers désactivé (ADMIN_TOKEN non défini).');
   }
 });

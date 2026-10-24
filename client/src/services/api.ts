@@ -1,5 +1,13 @@
 import axios from 'axios';
-import type { ApiResponse, DemandeOrientation, DemandePreparation, PlanRentreeResponse } from '../types';
+import type {
+  ApiResponse,
+  ChatResponse,
+  DemandeChat,
+  DemandeOrientation,
+  DemandePreparation,
+  PlanRentreeResponse,
+  Statistiques,
+} from '../types';
 
 // En développement, Vite relaie /api vers le serveur Express (voir vite.config.ts)
 const API_BASE = import.meta.env.VITE_API_URL || '/api';
@@ -20,6 +28,8 @@ export type CodeErreur =
   | 'AI_UNAVAILABLE'
   | 'RATE_LIMITED'
   | 'INVALID_INPUT'
+  | 'UNAUTHORIZED'
+  | 'STATS_DISABLED'
   | 'NETWORK'
   | 'TIMEOUT'
   | 'UNKNOWN';
@@ -71,4 +81,29 @@ export async function demanderPlanRentree(demande: DemandePreparation): Promise<
   } catch (error) {
     throw versErreurOrientation(error);
   }
+}
+
+export async function poserQuestion(demande: DemandeChat): Promise<ChatResponse> {
+  try {
+    const response = await api.post<ChatResponse>('/chat', demande);
+    return response.data;
+  } catch (error) {
+    throw versErreurOrientation(error);
+  }
+}
+
+// Espace conseillers : le mot de passe (ADMIN_TOKEN du serveur) est envoyé dans l'en-tête Authorization
+export async function getStatistiques(motDePasse: string): Promise<Statistiques> {
+  try {
+    const response = await api.get<{ success: boolean; data: Statistiques }>('/stats', {
+      headers: { Authorization: `Bearer ${motDePasse}` },
+    });
+    return response.data.data;
+  } catch (error) {
+    throw versErreurOrientation(error);
+  }
+}
+
+export async function envoyerAvis(utile: boolean): Promise<void> {
+  await api.post('/avis', { utile });
 }

@@ -3,9 +3,20 @@
     "id": "informatique",
     "nom": "Informatique et Développement Logiciel",
     "description": "Formation aux fondements de l'informatique, à la programmation, aux bases de données et au développement d'applications web et mobiles.",
-    "domaines": ["Informatique et numérique", "Sciences et ingénierie"],
-    "matieresPertinentes": ["Mathématiques", "Physique-Chimie"],
-    "competencesUtiles": ["Programmer", "Résoudre des problèmes logiques", "Utiliser les outils informatiques", "Analyser des informations"],
+    "domaines": [
+      "Informatique et numérique",
+      "Sciences et ingénierie"
+    ],
+    "matieresPertinentes": [
+      "Mathématiques",
+      "Physique-Chimie"
+    ],
+    "competencesUtiles": [
+      "Programmer",
+      "Résoudre des problèmes logiques",
+      "Utiliser les outils informatiques",
+      "Analyser des informations"
+    ],
     "debouches": [
       "Développeur logiciel",
       "Ingénieur en intelligence artificielle",
@@ -18,15 +29,26 @@
       "Domaine en évolution rapide, requiert une veille technologique permanente",
       "Sédentarité importante, prévoir une activité physique complémentaire"
     ],
-    "prerequis": "Bonnes bases en mathématiques, logique et curiosité technologique"
+    "prerequis": "Bonnes bases en mathématiques, logique et curiosité technologique",
+    "duree": "Licence (3 ans), Master ou diplôme d'ingénieur (5 ans)"
   },
   {
     "id": "reseaux",
     "nom": "Réseaux et Télécommunications",
     "description": "Étude des infrastructures réseau, des systèmes de communication, de la cybersécurité et de l'administration des systèmes informatiques.",
-    "domaines": ["Informatique et numérique", "Sciences et ingénierie"],
-    "matieresPertinentes": ["Mathématiques", "Physique-Chimie"],
-    "competencesUtiles": ["Résoudre des problèmes logiques", "Utiliser les outils informatiques", "Réaliser des activités pratiques ou techniques"],
+    "domaines": [
+      "Informatique et numérique",
+      "Sciences et ingénierie"
+    ],
+    "matieresPertinentes": [
+      "Mathématiques",
+      "Physique-Chimie"
+    ],
+    "competencesUtiles": [
+      "Résoudre des problèmes logiques",
+      "Utiliser les outils informatiques",
+      "Réaliser des activités pratiques ou techniques"
+    ],
     "debouches": [
       "Administrateur réseau",
       "Ingénieur en cybersécurité",
@@ -39,15 +61,28 @@
       "Formations souvent avec volet pratique important",
       "Secteur très compétitif au niveau international"
     ],
-    "prerequis": "Bases en physique et mathématiques, intérêt pour les systèmes techniques"
+    "prerequis": "Bases en physique et mathématiques, intérêt pour les systèmes techniques",
+    "duree": "Licence (3 ans), Master ou diplôme d'ingénieur (5 ans)"
   },
   {
     "id": "comptabilite",
     "nom": "Comptabilité et Gestion",
     "description": "Formation à la tenue des comptes, à l'analyse financière, à la gestion d'entreprise et aux outils de contrôle de gestion.",
-    "domaines": ["Gestion et finance", "Commerce et entrepreneuriat"],
-    "matieresPertinentes": ["Mathématiques", "Économie", "Comptabilité"],
-    "competencesUtiles": ["Gérer de l'argent", "Analyser des informations", "Organiser des activités", "Travailler en équipe"],
+    "domaines": [
+      "Gestion et finance",
+      "Commerce et entrepreneuriat"
+    ],
+    "matieresPertinentes": [
+      "Mathématiques",
+      "Économie",
+      "Comptabilité"
+    ],
+    "competencesUtiles": [
+      "Gérer de l'argent",
+      "Analyser des informations",
+      "Organiser des activités",
+      "Travailler en équipe"
+    ],
     "debouches": [
       "Comptable d'entreprise",
       "Contrôleur de gestion",
@@ -60,15 +95,26 @@
       "Nécessite une grande rigueur et une attention aux détails",
       "Exige une mise à jour régulière des connaissances réglementaires"
     ],
-    "prerequis": "Intérêt pour les chiffres, rigueur, aptitudes organisationnelles"
+    "prerequis": "Intérêt pour les chiffres, rigueur, aptitudes organisationnelles",
+    "duree": "BTS (2 ans), Licence (3 ans), Master (5 ans)"
   },
   {
     "id": "finance",
     "nom": "Finance et Banque",
     "description": "Étude des marchés financiers, de la gestion de patrimoine, des produits bancaires et des mécanismes d'investissement.",
-    "domaines": ["Gestion et finance"],
-    "matieresPertinentes": ["Mathématiques", "Économie"],
-    "competencesUtiles": ["Gérer de l'argent", "Analyser des informations", "Convaincre et négocier", "Résoudre des problèmes logiques"],
+    "domaines": [
+      "Gestion et finance"
+    ],
+    "matieresPertinentes": [
+      "Mathématiques",
+      "Économie"
+    ],
+    "competencesUtiles": [
+      "Gérer de l'argent",
+      "Analyser des informations",
+      "Convaincre et négocier",
+      "Résoudre des problèmes logiques"
+    ],
     "debouches": [
       "Analyste financier",
       "Chargé de clientèle bancaire",
@@ -81,15 +127,29 @@
       "Pression liée aux résultats financiers",
       "Évolutions réglementaires fréquentes"
     ],
-    "prerequis": "Solides bases en mathématiques et économie, sang-froid et esprit d'analyse"
+    "prerequis": "Solides bases en mathématiques et économie, sang-froid et esprit d'analyse",
+    "duree": "Licence (3 ans), Master (5 ans)"
   },
   {
     "id": "marketing",
     "nom": "Marketing et Commerce",
     "description": "Formation aux stratégies commerciales, au marketing digital, à la communication client et au management des ventes.",
-    "domaines": ["Commerce et entrepreneuriat", "Communication et médias"],
-    "matieresPertinentes": ["Français", "Économie", "Anglais"],
-    "competencesUtiles": ["Communiquer facilement", "Convaincre et négocier", "Entreprendre", "Analyser des informations", "Travailler en équipe"],
+    "domaines": [
+      "Commerce et entrepreneuriat",
+      "Communication et médias"
+    ],
+    "matieresPertinentes": [
+      "Français",
+      "Économie",
+      "Anglais"
+    ],
+    "competencesUtiles": [
+      "Communiquer facilement",
+      "Convaincre et négocier",
+      "Entreprendre",
+      "Analyser des informations",
+      "Travailler en équipe"
+    ],
     "debouches": [
       "Responsable marketing",
       "Commercial terrain",
@@ -102,15 +162,28 @@
       "Secteur très compétitif",
       "Résultats souvent liés aux chiffres de vente"
     ],
-    "prerequis": "Aisance relationnelle, créativité, intérêt pour les comportements consommateurs"
+    "prerequis": "Aisance relationnelle, créativité, intérêt pour les comportements consommateurs",
+    "duree": "BTS (2 ans), Licence (3 ans), Master (5 ans)"
   },
   {
     "id": "communication",
     "nom": "Communication et Médias",
     "description": "Formation aux techniques rédactionnelles, journalistiques, audiovisuelles et aux stratégies de communication institutionnelle.",
-    "domaines": ["Communication et médias", "Arts et création"],
-    "matieresPertinentes": ["Français", "Anglais", "Histoire-Géographie"],
-    "competencesUtiles": ["Écrire et rédiger", "Communiquer facilement", "Analyser des informations", "Dessiner et créer"],
+    "domaines": [
+      "Communication et médias",
+      "Arts et création"
+    ],
+    "matieresPertinentes": [
+      "Français",
+      "Anglais",
+      "Histoire-Géographie"
+    ],
+    "competencesUtiles": [
+      "Écrire et rédiger",
+      "Communiquer facilement",
+      "Analyser des informations",
+      "Dessiner et créer"
+    ],
     "debouches": [
       "Journaliste",
       "Chargé de communication",
@@ -123,15 +196,27 @@
       "Exige polyvalence et capacité d'adaptation",
       "Pression des délais de publication"
     ],
-    "prerequis": "Excellente maîtrise du français, curiosité intellectuelle, facilité d'expression"
+    "prerequis": "Excellente maîtrise du français, curiosité intellectuelle, facilité d'expression",
+    "duree": "Licence professionnelle (3 ans), Master (5 ans)"
   },
   {
     "id": "droit",
     "nom": "Droit",
     "description": "Étude des règles juridiques régissant la société : droit civil, commercial, public, international et procédures judiciaires.",
-    "domaines": ["Droit"],
-    "matieresPertinentes": ["Français", "Histoire-Géographie", "Philosophie"],
-    "competencesUtiles": ["Analyser des informations", "Écrire et rédiger", "Communiquer facilement", "Convaincre et négocier"],
+    "domaines": [
+      "Droit"
+    ],
+    "matieresPertinentes": [
+      "Français",
+      "Histoire-Géographie",
+      "Philosophie"
+    ],
+    "competencesUtiles": [
+      "Analyser des informations",
+      "Écrire et rédiger",
+      "Communiquer facilement",
+      "Convaincre et négocier"
+    ],
     "debouches": [
       "Avocat",
       "Magistrat",
@@ -144,15 +229,27 @@
       "Exige une capacité mémorielle importante",
       "Marchés des professions libérales parfois saturés"
     ],
-    "prerequis": "Excellente expression écrite et orale, rigueur analytique, intérêt pour la justice"
+    "prerequis": "Excellente expression écrite et orale, rigueur analytique, intérêt pour la justice",
+    "duree": "Licence (3 ans), Master (5 ans)"
   },
   {
     "id": "sciences-eco",
     "nom": "Sciences Économiques",
     "description": "Analyse des mécanismes économiques, des politiques publiques, des échanges internationaux et du comportement des agents économiques.",
-    "domaines": ["Gestion et finance", "Sciences et ingénierie"],
-    "matieresPertinentes": ["Économie", "Mathématiques", "Histoire-Géographie"],
-    "competencesUtiles": ["Analyser des informations", "Résoudre des problèmes logiques", "Écrire et rédiger"],
+    "domaines": [
+      "Gestion et finance",
+      "Sciences et ingénierie"
+    ],
+    "matieresPertinentes": [
+      "Économie",
+      "Mathématiques",
+      "Histoire-Géographie"
+    ],
+    "competencesUtiles": [
+      "Analyser des informations",
+      "Résoudre des problèmes logiques",
+      "Écrire et rédiger"
+    ],
     "debouches": [
       "Économiste",
       "Statisticien",
@@ -165,15 +262,25 @@
       "Formation essentiellement théorique en premiers cycles",
       "Nécessite souvent un Master pour accéder à des postes qualifiés"
     ],
-    "prerequis": "Intérêt pour l'analyse macroéconomique, bases solides en mathématiques"
+    "prerequis": "Intérêt pour l'analyse macroéconomique, bases solides en mathématiques",
+    "duree": "Licence (3 ans), Master (5 ans), Doctorat (8 ans)"
   },
   {
     "id": "maths-sciences",
     "nom": "Mathématiques et Sciences Pures",
     "description": "Étude approfondie des mathématiques, de la physique et de la chimie, orientée vers la recherche, l'enseignement ou l'ingénierie.",
-    "domaines": ["Sciences et ingénierie"],
-    "matieresPertinentes": ["Mathématiques", "Physique-Chimie", "SVT"],
-    "competencesUtiles": ["Résoudre des problèmes logiques", "Analyser des informations"],
+    "domaines": [
+      "Sciences et ingénierie"
+    ],
+    "matieresPertinentes": [
+      "Mathématiques",
+      "Physique-Chimie",
+      "SVT"
+    ],
+    "competencesUtiles": [
+      "Résoudre des problèmes logiques",
+      "Analyser des informations"
+    ],
     "debouches": [
       "Enseignant-chercheur",
       "Ingénieur R&D",
@@ -186,15 +293,26 @@
       "Débouchés directs limités sans Master",
       "Orientation vers l'enseignement souvent inévitable"
     ],
-    "prerequis": "Excellence en mathématiques et sciences exactes, goût pour l'abstraction"
+    "prerequis": "Excellence en mathématiques et sciences exactes, goût pour l'abstraction",
+    "duree": "Licence (3 ans), Master (5 ans), Doctorat (8 ans)"
   },
   {
     "id": "genie-civil",
     "nom": "Génie Civil et BTP",
     "description": "Formation à la conception, à la construction et à la réhabilitation des infrastructures : bâtiments, routes, ponts, réseaux hydrauliques.",
-    "domaines": ["Sciences et ingénierie"],
-    "matieresPertinentes": ["Mathématiques", "Physique-Chimie"],
-    "competencesUtiles": ["Résoudre des problèmes logiques", "Réaliser des activités pratiques ou techniques", "Organiser des activités", "Travailler en équipe"],
+    "domaines": [
+      "Sciences et ingénierie"
+    ],
+    "matieresPertinentes": [
+      "Mathématiques",
+      "Physique-Chimie"
+    ],
+    "competencesUtiles": [
+      "Résoudre des problèmes logiques",
+      "Réaliser des activités pratiques ou techniques",
+      "Organiser des activités",
+      "Travailler en équipe"
+    ],
     "debouches": [
       "Ingénieur en bâtiment et travaux publics",
       "Chef de chantier",
@@ -207,15 +325,25 @@
       "Nécessite une bonne résistance physique",
       "Responsabilités importantes liées à la sécurité des ouvrages"
     ],
-    "prerequis": "Solides bases en mathématiques et physique, sens pratique, goût pour le terrain"
+    "prerequis": "Solides bases en mathématiques et physique, sens pratique, goût pour le terrain",
+    "duree": "Licence professionnelle (3 ans) ou diplôme d'ingénieur (5 ans)"
   },
   {
     "id": "genie-electrique",
     "nom": "Génie Électrique et Électronique",
     "description": "Étude des systèmes électriques, de l'électronique embarquée, des automatismes et de l'énergie renouvelable.",
-    "domaines": ["Sciences et ingénierie"],
-    "matieresPertinentes": ["Mathématiques", "Physique-Chimie"],
-    "competencesUtiles": ["Résoudre des problèmes logiques", "Réaliser des activités pratiques ou techniques", "Utiliser les outils informatiques"],
+    "domaines": [
+      "Sciences et ingénierie"
+    ],
+    "matieresPertinentes": [
+      "Mathématiques",
+      "Physique-Chimie"
+    ],
+    "competencesUtiles": [
+      "Résoudre des problèmes logiques",
+      "Réaliser des activités pratiques ou techniques",
+      "Utiliser les outils informatiques"
+    ],
     "debouches": [
       "Ingénieur électricien",
       "Automaticien",
@@ -228,15 +356,26 @@
       "Formation pratique indispensable",
       "Secteur en mutation avec les énergies vertes"
     ],
-    "prerequis": "Excellentes bases en physique et mathématiques, minutie technique"
+    "prerequis": "Excellentes bases en physique et mathématiques, minutie technique",
+    "duree": "Licence professionnelle (3 ans) ou diplôme d'ingénieur (5 ans)"
   },
   {
     "id": "agronomie",
     "nom": "Agronomie et Sciences Agricoles",
     "description": "Formation à la production végétale, animale, à l'agroalimentaire, à la gestion des ressources naturelles et au développement rural.",
-    "domaines": ["Agriculture et environnement"],
-    "matieresPertinentes": ["SVT", "Physique-Chimie", "Mathématiques"],
-    "competencesUtiles": ["Analyser des informations", "Réaliser des activités pratiques ou techniques", "Organiser des activités"],
+    "domaines": [
+      "Agriculture et environnement"
+    ],
+    "matieresPertinentes": [
+      "SVT",
+      "Physique-Chimie",
+      "Mathématiques"
+    ],
+    "competencesUtiles": [
+      "Analyser des informations",
+      "Réaliser des activités pratiques ou techniques",
+      "Organiser des activités"
+    ],
     "debouches": [
       "Ingénieur agronome",
       "Technicien agricole",
@@ -249,15 +388,27 @@
       "Revenus variables selon le secteur public ou privé",
       "Dépendance aux politiques agricoles nationales"
     ],
-    "prerequis": "Intérêt pour les sciences naturelles et le développement durable, sens pratique"
+    "prerequis": "Intérêt pour les sciences naturelles et le développement durable, sens pratique",
+    "duree": "Licence professionnelle (3 ans), Master ou diplôme d'ingénieur (5 ans)"
   },
   {
     "id": "sante",
     "nom": "Sciences de la Santé",
     "description": "Formations paramédicales et médicales incluant infirmerie, sage-femme, pharmacie, biologie médicale et santé publique.",
-    "domaines": ["Santé"],
-    "matieresPertinentes": ["SVT", "Physique-Chimie", "Mathématiques"],
-    "competencesUtiles": ["Aider et accompagner les autres", "Analyser des informations", "Réaliser des activités pratiques ou techniques", "Travailler en équipe"],
+    "domaines": [
+      "Santé"
+    ],
+    "matieresPertinentes": [
+      "SVT",
+      "Physique-Chimie",
+      "Mathématiques"
+    ],
+    "competencesUtiles": [
+      "Aider et accompagner les autres",
+      "Analyser des informations",
+      "Réaliser des activités pratiques ou techniques",
+      "Travailler en équipe"
+    ],
     "debouches": [
       "Infirmier(ère)",
       "Sage-femme",
@@ -270,15 +421,27 @@
       "Parcours long et exigeant",
       "Pression émotionnelle liée au contact avec la souffrance"
     ],
-    "prerequis": "Solides bases en SVT et chimie, vocation de service, résistance émotionnelle"
+    "prerequis": "Solides bases en SVT et chimie, vocation de service, résistance émotionnelle",
+    "duree": "Études longues : médecine, pharmacie et odontostomatologie durent 6 ans ou plus"
   },
   {
     "id": "enseignement",
     "nom": "Sciences de l'Éducation et Enseignement",
     "description": "Formation aux méthodologies pédagogiques, à la psychologie de l'éducation et à l'enseignement dans les cycles primaire, secondaire ou supérieur.",
-    "domaines": ["Éducation"],
-    "matieresPertinentes": ["Français", "Philosophie", "Histoire-Géographie"],
-    "competencesUtiles": ["Communiquer facilement", "Aider et accompagner les autres", "Organiser des activités", "Écrire et rédiger"],
+    "domaines": [
+      "Éducation"
+    ],
+    "matieresPertinentes": [
+      "Français",
+      "Philosophie",
+      "Histoire-Géographie"
+    ],
+    "competencesUtiles": [
+      "Communiquer facilement",
+      "Aider et accompagner les autres",
+      "Organiser des activités",
+      "Écrire et rédiger"
+    ],
     "debouches": [
       "Enseignant du primaire ou secondaire",
       "Conseiller pédagogique",
@@ -291,15 +454,28 @@
       "Conditions de travail variables selon les zones géographiques",
       "Évolution de carrière parfois lente"
     ],
-    "prerequis": "Patience, sens de la communication, vocation pour la transmission du savoir"
+    "prerequis": "Patience, sens de la communication, vocation pour la transmission du savoir",
+    "duree": "Licence professionnelle d'enseignement (3 ans), Master professionnel (5 ans)"
   },
   {
     "id": "design-numerique",
     "nom": "Design et Création Numérique",
     "description": "Formation à la création graphique, au design d'interface, à l'animation 2D/3D, à la photographie et à la production audiovisuelle.",
-    "domaines": ["Arts et création", "Communication et médias", "Informatique et numérique"],
-    "matieresPertinentes": ["Français", "Philosophie"],
-    "competencesUtiles": ["Dessiner et créer", "Utiliser les outils informatiques", "Communiquer facilement", "Programmer"],
+    "domaines": [
+      "Arts et création",
+      "Communication et médias",
+      "Informatique et numérique"
+    ],
+    "matieresPertinentes": [
+      "Français",
+      "Philosophie"
+    ],
+    "competencesUtiles": [
+      "Dessiner et créer",
+      "Utiliser les outils informatiques",
+      "Communiquer facilement",
+      "Programmer"
+    ],
     "debouches": [
       "Graphiste",
       "Designer UI/UX",
@@ -312,6 +488,267 @@
       "Nécessite un portfolio solide pour trouver des clients",
       "Évolution rapide des outils numériques"
     ],
-    "prerequis": "Sens esthétique développé, créativité, maîtrise des outils numériques de création"
+    "prerequis": "Sens esthétique développé, créativité, maîtrise des outils numériques de création",
+    "duree": "Licence professionnelle (3 ans), Master (5 ans)"
+  },
+  {
+    "id": "sciences-infirmieres",
+    "nom": "Soins infirmiers et Maïeutique",
+    "description": "Formation aux soins infirmiers et à l'accompagnement des patients et, pour la maïeutique (sage-femme), au suivi de la grossesse et de l'accouchement. Accès par concours dans les écoles publiques.",
+    "domaines": [
+      "Santé"
+    ],
+    "matieresPertinentes": [
+      "SVT",
+      "Physique-Chimie",
+      "Français"
+    ],
+    "competencesUtiles": [
+      "Aider et accompagner les autres",
+      "Travailler en équipe",
+      "Communiquer facilement",
+      "Réaliser des activités pratiques ou techniques"
+    ],
+    "debouches": [
+      "Infirmier d'État",
+      "Sage-femme d'État",
+      "Infirmier en santé communautaire",
+      "Agent de santé publique"
+    ],
+    "pointsVigilance": [
+      "Accès par concours, avec un nombre de places limité",
+      "Gardes de nuit et forte charge émotionnelle",
+      "Stages pratiques nombreux et exigeants"
+    ],
+    "prerequis": "Bon niveau en SVT, sens du contact humain et résistance au stress",
+    "duree": "Environ 3 ans (licence professionnelle pour les sages-femmes)"
+  },
+  {
+    "id": "biologie-medicale",
+    "nom": "Analyses biomédicales et Nutrition",
+    "description": "Formation aux analyses de laboratoire (biologie médicale, biochimie, microbiologie) et à la nutrition humaine et la diététique.",
+    "domaines": [
+      "Santé",
+      "Sciences et ingénierie"
+    ],
+    "matieresPertinentes": [
+      "SVT",
+      "Physique-Chimie",
+      "Mathématiques"
+    ],
+    "competencesUtiles": [
+      "Analyser des informations",
+      "Réaliser des activités pratiques ou techniques",
+      "Résoudre des problèmes logiques"
+    ],
+    "debouches": [
+      "Technicien de laboratoire d'analyses médicales",
+      "Diététicien-nutritionniste",
+      "Technicien en contrôle qualité",
+      "Assistant de recherche biomédicale"
+    ],
+    "pointsVigilance": [
+      "Travail de laboratoire minutieux et rigoureux",
+      "Accès sélectif sur dossier ou concours",
+      "Nécessite de solides bases en SVT et en chimie"
+    ],
+    "prerequis": "BAC scientifique (C ou D) avec de bonnes notes en SVT et Physique-Chimie",
+    "duree": "Licence (3 ans), Master (5 ans)"
+  },
+  {
+    "id": "agroalimentaire-environnement",
+    "nom": "Agroalimentaire, Eau et Environnement",
+    "description": "Transformation et contrôle qualité des produits alimentaires, gestion de l'eau, de l'assainissement et de l'environnement.",
+    "domaines": [
+      "Agriculture et environnement",
+      "Sciences et ingénierie"
+    ],
+    "matieresPertinentes": [
+      "SVT",
+      "Physique-Chimie",
+      "Mathématiques"
+    ],
+    "competencesUtiles": [
+      "Analyser des informations",
+      "Réaliser des activités pratiques ou techniques",
+      "Organiser des activités"
+    ],
+    "debouches": [
+      "Technicien en industrie agroalimentaire",
+      "Responsable qualité",
+      "Technicien en eau et assainissement",
+      "Chargé d'études environnementales"
+    ],
+    "pointsVigilance": [
+      "Travail souvent en usine ou sur le terrain",
+      "Normes d'hygiène et de qualité strictes",
+      "Nécessite des bases solides en chimie et en biologie"
+    ],
+    "prerequis": "BAC scientifique, intérêt pour la chimie, la biologie et l'environnement",
+    "duree": "Licence (3 ans), Master (5 ans)"
+  },
+  {
+    "id": "architecture-urbanisme",
+    "nom": "Architecture et Urbanisme",
+    "description": "Conception de bâtiments, aménagement des villes et gestion urbaine, en lien avec la croissance des villes et les enjeux du climat.",
+    "domaines": [
+      "Sciences et ingénierie",
+      "Arts et création"
+    ],
+    "matieresPertinentes": [
+      "Mathématiques",
+      "Physique-Chimie",
+      "Histoire-Géographie"
+    ],
+    "competencesUtiles": [
+      "Dessiner et créer",
+      "Résoudre des problèmes logiques",
+      "Organiser des activités",
+      "Travailler en équipe"
+    ],
+    "debouches": [
+      "Architecte",
+      "Urbaniste",
+      "Gestionnaire urbain",
+      "Dessinateur-projeteur"
+    ],
+    "pointsVigilance": [
+      "Études longues avec de nombreux projets à rendre",
+      "Accès sélectif",
+      "Demande à la fois créativité et rigueur technique"
+    ],
+    "prerequis": "Bonnes bases en mathématiques, sens de l'espace et goût pour le dessin",
+    "duree": "Licence (3 ans), Master (5 ans)"
+  },
+  {
+    "id": "genie-mecanique",
+    "nom": "Génie Mécanique et Maintenance Industrielle",
+    "description": "Conception, fabrication et maintenance des machines et des équipements industriels et agro-industriels.",
+    "domaines": [
+      "Sciences et ingénierie"
+    ],
+    "matieresPertinentes": [
+      "Mathématiques",
+      "Physique-Chimie"
+    ],
+    "competencesUtiles": [
+      "Réaliser des activités pratiques ou techniques",
+      "Résoudre des problèmes logiques",
+      "Analyser des informations"
+    ],
+    "debouches": [
+      "Technicien de maintenance industrielle",
+      "Ingénieur mécanicien",
+      "Responsable de production",
+      "Technicien en équipements agro-industriels"
+    ],
+    "pointsVigilance": [
+      "Travail en atelier ou en usine, parfois physique",
+      "Nécessite de solides bases en physique et en mathématiques",
+      "Règles de sécurité strictes"
+    ],
+    "prerequis": "BAC C, D, E ou F avec de bonnes notes en mathématiques et en physique",
+    "duree": "Licence professionnelle (3 ans) ou diplôme d'ingénieur (5 ans)"
+  },
+  {
+    "id": "logistique-transport",
+    "nom": "Logistique et Transport",
+    "description": "Organisation des flux de marchandises, gestion des stocks, du transport et des activités portuaires, un secteur important au Togo autour du Port autonome de Lomé.",
+    "domaines": [
+      "Gestion et finance",
+      "Commerce et entrepreneuriat"
+    ],
+    "matieresPertinentes": [
+      "Mathématiques",
+      "Économie",
+      "Anglais",
+      "Histoire-Géographie"
+    ],
+    "competencesUtiles": [
+      "Organiser des activités",
+      "Analyser des informations",
+      "Travailler en équipe",
+      "Utiliser les outils informatiques"
+    ],
+    "debouches": [
+      "Logisticien",
+      "Agent de transit",
+      "Gestionnaire de stocks",
+      "Responsable des opérations portuaires"
+    ],
+    "pointsVigilance": [
+      "Rythme soutenu et gestion des urgences",
+      "L'anglais est très utile",
+      "Horaires parfois décalés dans le transport"
+    ],
+    "prerequis": "Sens de l'organisation, bases en mathématiques et en anglais",
+    "duree": "Licence (3 ans), Master ou diplôme d'ingénieur (5 ans)"
+  },
+  {
+    "id": "intelligence-artificielle",
+    "nom": "Intelligence Artificielle et Science des Données",
+    "description": "Formation à l'apprentissage automatique, au traitement des données massives (Big Data) et au développement de solutions d'intelligence artificielle.",
+    "domaines": [
+      "Informatique et numérique",
+      "Sciences et ingénierie"
+    ],
+    "matieresPertinentes": [
+      "Mathématiques",
+      "Physique-Chimie",
+      "Anglais"
+    ],
+    "competencesUtiles": [
+      "Programmer",
+      "Résoudre des problèmes logiques",
+      "Analyser des informations",
+      "Utiliser les outils informatiques"
+    ],
+    "debouches": [
+      "Ingénieur en intelligence artificielle",
+      "Data scientist",
+      "Ingénieur Big Data",
+      "Analyste de données"
+    ],
+    "pointsVigilance": [
+      "Très exigeant en mathématiques (statistiques, algèbre)",
+      "Accès par concours, places limitées",
+      "Domaine qui évolue très vite"
+    ],
+    "prerequis": "BAC C, D ou E avec un excellent niveau en mathématiques",
+    "duree": "Diplôme d'ingénieur (5 ans : 2 années préparatoires + 3 ans)"
+  },
+  {
+    "id": "tourisme-hotellerie",
+    "nom": "Tourisme et Hôtellerie",
+    "description": "Formation aux métiers de l'accueil, de l'hébergement, de la restauration et de l'organisation touristique.",
+    "domaines": [
+      "Commerce et entrepreneuriat",
+      "Communication et médias"
+    ],
+    "matieresPertinentes": [
+      "Français",
+      "Anglais",
+      "Histoire-Géographie"
+    ],
+    "competencesUtiles": [
+      "Communiquer facilement",
+      "Aider et accompagner les autres",
+      "Organiser des activités",
+      "Travailler en équipe"
+    ],
+    "debouches": [
+      "Réceptionniste ou chef de réception",
+      "Gestionnaire d'hôtel",
+      "Agent de voyages",
+      "Guide touristique",
+      "Responsable de restauration"
+    ],
+    "pointsVigilance": [
+      "Horaires décalés, week-ends et jours fériés",
+      "Langues étrangères indispensables",
+      "Formations surtout proposées par des écoles privées"
+    ],
+    "prerequis": "Sens de l'accueil, bonne présentation et goût pour les langues",
+    "duree": "BTS (2 ans), Licence (3 ans)"
   }
 ]

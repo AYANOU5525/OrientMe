@@ -29,6 +29,8 @@ export interface DonneesFormulaire {
   profil: ProfilScolaire;
   competences: Competences;
   aspirations: Aspirations;
+  // Mini-questionnaire : identifiant de question → réponse choisie (étape facultative)
+  personnalite: Record<string, string>;
 }
 
 // Corps envoyé à POST /api/orientation (le prénom reste dans le navigateur)
@@ -40,6 +42,17 @@ export interface DemandeOrientation {
   metierSouhaite: string;
   loisirs: string;
   preferenceFormation: Aspirations['preferenceFormation'];
+  personnalite: string[];
+}
+
+// École togolaise vérifiée à la main (jamais générée par l'IA)
+export interface Etablissement {
+  id: string;
+  nom: string;
+  ville: string;
+  statut: string;
+  details: string;
+  source: string;
 }
 
 export interface Recommandation {
@@ -52,6 +65,9 @@ export interface Recommandation {
   // Données officielles du catalogue, ajoutées par le serveur
   description?: string;
   prerequis?: string;
+  duree?: string;
+  matieresPertinentes?: string[];
+  etablissements?: Etablissement[];
 }
 
 export interface AnalyseProfil {
@@ -87,6 +103,8 @@ export interface EtapePreparation {
 export interface PlanRentree {
   filiereId: string;
   nom: string;
+  duree?: string;
+  etablissements?: Etablissement[];
   introduction: string;
   aMaitriser: PointAMaitriser[];
   planAvantRentree: EtapePreparation[];
@@ -104,6 +122,49 @@ export interface PlanRentreeResponse {
   success: boolean;
   data: PlanRentree;
 }
+
+// Discussion « Pose tes questions à Orienteme »
+export interface MessageChat {
+  role: 'etudiant' | 'orienteme';
+  texte: string;
+}
+
+export interface DemandeChat {
+  profil: DemandeOrientation;
+  recommandations: { filiereId: string; nom: string }[];
+  historique: MessageChat[];
+  question: string;
+}
+
+export interface ChatResponse {
+  success: boolean;
+  data: { reponse: string };
+}
+
+// Statistiques anonymes de l'espace conseillers
+export interface Statistiques {
+  orientations: number;
+  choix: number;
+  avisPositifs: number;
+  avisNegatifs: number;
+  parSerie: Record<string, number>;
+  parDomaine: Record<string, number>;
+  filieresRecommandees: Record<string, number>;
+  filieresChoisies: Record<string, number>;
+  parJour: Record<string, number>;
+  depuis: string | null;
+  filieres: { id: string; nom: string }[];
+}
+
+// Mini-questionnaire de personnalité : chaque réponse est transmise à l'IA sous la forme « question : réponse »
+export const QUESTIONS_PERSONNALITE = [
+  { id: 'lieu', question: 'Tu préfères travailler…', options: ['Sur le terrain', 'Dans un bureau', 'Les deux me vont'] },
+  { id: 'aisance', question: 'Tu es plus à l\'aise avec…', options: ['Les chiffres et la logique', 'Les mots et les idées', 'Les deux'] },
+  { id: 'equipe', question: 'Tu aimes plutôt…', options: ['Travailler seul', 'Travailler en équipe', 'Ça dépend'] },
+  { id: 'motivation', question: 'Ce qui te motive le plus…', options: ['Aider les autres', 'Créer et inventer', 'Diriger et décider', 'Comprendre comment ça marche'] },
+  { id: 'probleme', question: 'Face à un problème, tu…', options: ['Analyses avant d\'agir', 'Testes directement des solutions'] },
+  { id: 'duree', question: 'Tu préfères des études…', options: ['Courtes, pour vite travailler', 'Longues, pour aller loin', 'Je ne sais pas encore'] },
+] as const;
 
 export type EtapeFormulaire = 'accueil' | 'scolaire' | 'competences' | 'aspirations' | 'chargement' | 'resultats';
 
@@ -135,6 +196,14 @@ export const PROFIL_EXEMPLE: DonneesFormulaire = {
     metierSouhaite: 'Développeur logiciel',
     loisirs: 'Jeux vidéo, lecture de blogs technologiques',
     preferenceFormation: 'les-deux',
+  },
+  personnalite: {
+    lieu: 'Dans un bureau',
+    aisance: 'Les chiffres et la logique',
+    equipe: 'Ça dépend',
+    motivation: 'Créer et inventer',
+    probleme: 'Testes directement des solutions',
+    duree: 'Longues, pour aller loin',
   },
 };
 

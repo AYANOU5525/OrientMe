@@ -1,12 +1,20 @@
 import { ApiError, GoogleGenAI, type Content, type GenerateContentParameters } from '@google/genai';
-import { filieresById } from '../catalog';
+import { Filiere, etablissementsPour, filieresById } from '../catalog';
 import { config, isAiConfigured } from '../config';
 import { AppError } from '../errors';
-import { OrientationRequest, OrientationResult, PreparationRequest, PreparationResult } from '../schemas';
-import { ValidationResult, enrichir, parseAiResponse, parsePreparation } from './parsing';
+import {
+  ChatRequest,
+  ChatResponse,
+  OrientationRequest,
+  OrientationResult,
+  PreparationRequest,
+  PreparationResult,
+} from '../schemas';
+import { ValidationResult, enrichir, parseAiResponse, parseChat, parsePreparation } from './parsing';
 import {
   ORIENTATION_INSTRUCTION,
   PREPARATION_INSTRUCTION,
+  buildChatInstruction,
   buildPreparationPrompt,
   buildUserPrompt,
 } from './prompt';
@@ -48,10 +56,15 @@ class InvalidAiResponseError extends Error {}
 interface GemmaTask<T> {
   label: string;
   systemInstruction: string;
-  userPrompt: string;
+  // Messages envoyés au modèle : un seul message, ou une conversation qui se termine par l'étudiant
+  contents: Content[];
   // Assez pour une réponse complète, assez bas pour couper vite une génération qui boucle
   maxOutputTokens: number;
   parse: (text: string | undefined) => ValidationResult<T>;
+}
+
+function message(text: string): Content {
+  return { role: 'user', parts: [{ text }] };
 }
 
 // Sans instruction système, les règles sont placées en tête du premier message
@@ -108,7 +121,7 @@ async function generateValidated<T>(
   signal: AbortSignal,
   callModel: ModelCaller
 ): Promise<T> {
-  const contents: Content[] = [{ role: 'user', parts: [{ text: task.userPrompt }] }];
+  const contents: Content[] = [...task.contents];
   let reason = '';
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS_PER_MODEL; attempt++) {
@@ -218,7 +231,7 @@ export async function getRecommendations(
     {
       label: 'Orientation',
       systemInstruction: ORIENTATION_INSTRUCTION,
-      userPrompt: buildUserPrompt(data),
+      contents: [message(buildUserPrompt(data))],
       maxOutputTokens: 2048,
       parse: parseAiResponse,
     },
@@ -241,11 +254,47 @@ export async function getPreparation(
     {
       label: 'Plan de rentrée',
       systemInstruction: PREPARATION_INSTRUCTION,
-      userPrompt: buildPreparationPrompt(demande, filiere),
+      contents: [message(buildPreparationPrompt(demande, filiere))],
       maxOutputTokens: 3072,
       parse: parsePreparation,
     },
     callModel
   );
-  return { result: { filiereId: filiere.id, nom: filiere.nom, ...data }, model };
+  return {
+    result: {
+      filiereId: filiere.id,
+      nom: filiere.nom,
+      duree: filiere.duree,
+      etablissements: etablissementsPour(filiere.id).map(({ filieres: _, ...etablissement }) => etablissement),
+      ...data,
+    },
+    model,
+  };
+}
+
+// Discussion « Pose tes questions à Orienteme » : le contexte (profil, fiches, écoles) est dans les consignes
+export async function getChatReponse(
+  demande: ChatRequest,
+  callModel: ModelCaller = callGemini
+): Promise<{ result: ChatResponse; model: string }> {
+  const fiches = demande.recommandations
+    .map((rec) => filieresById.get(rec.filiereId))
+    .filter((filiere): filiere is Filiere => filiere !== undefined);
+
+  const historique: Content[] = demande.historique.map((m) => ({
+    role: m.role === 'etudiant' ? 'user' : 'model',
+    parts: [{ text: m.texte }],
+  }));
+
+  const { data, model } = await runGemma(
+    {
+      label: 'Réponse de la discussion',
+      systemInstruction: buildChatInstruction(demande.profil, fiches),
+      contents: [...historique, message(demande.question)],
+      maxOutputTokens: 1024,
+      parse: parseChat,
+    },
+    callModel
+  );
+  return { result: data, model };
 }

@@ -7,14 +7,18 @@ import {
   Star,
   CheckCircle,
   ArrowRight,
+  History,
 } from 'lucide-react';
 import { Navbar } from '../components/Navbar';
 
 interface AccueilPageProps {
   onStart: () => void;
+  // Présent quand des résultats sont sauvegardés dans ce navigateur
+  onReprendre?: () => void;
+  prenomSauvegarde?: string;
 }
 
-export const AccueilPage: React.FC<AccueilPageProps> = ({ onStart }) => {
+export const AccueilPage: React.FC<AccueilPageProps> = ({ onStart, onReprendre, prenomSauvegarde }) => {
   const etapes = [
     {
       numero: '01',
@@ -94,6 +98,14 @@ export const AccueilPage: React.FC<AccueilPageProps> = ({ onStart }) => {
               Comment ça marche ?
             </button>
           </div>
+
+          {onReprendre && (
+            <button className="reprendre" onClick={onReprendre}>
+              <History size={16} />
+              {prenomSauvegarde ? `${prenomSauvegarde}, revois` : 'Revois'} tes derniers résultats
+              <ArrowRight size={14} />
+            </button>
+          )}
         </div>
 
         <div className="hero-visual">
@@ -198,7 +210,9 @@ export const AccueilPage: React.FC<AccueilPageProps> = ({ onStart }) => {
       {/* FOOTER */}
       <footer className="footer">
         <div className="footer-inner">
-          <p>Orienteme — Hackathon Togo 2024</p>
+          <p>
+            Orienteme — Orientation post-BAC au Togo · <a className="footer-lien" href="#conseillers">Espace conseillers</a>
+          </p>
           <p className="footer-note">
             Les recommandations sont indicatives et ne remplacent pas un conseiller d'orientation professionnel.
           </p>

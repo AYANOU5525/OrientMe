@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { Etablissement } from './catalog';
 
 // Schéma de validation de la requête entrante
 // Les longueurs maximales limitent la taille du prompt envoyé au modèle
@@ -19,6 +20,8 @@ export const OrientationRequestSchema = z.object({
   metierSouhaite: z.string().trim().max(100).optional().default(''),
   loisirs: z.string().trim().max(200).optional().default(''),
   preferenceFormation: z.enum(['theorique', 'pratique', 'les-deux']),
+  // Réponses au mini-questionnaire de personnalité, sous la forme « question : réponse »
+  personnalite: z.array(z.string().trim().min(1).max(160)).max(8).optional().default([]),
 });
 
 export type OrientationRequest = z.infer<typeof OrientationRequestSchema>;
@@ -49,6 +52,9 @@ export type OrientationResponse = z.infer<typeof OrientationResponseSchema>;
 export type RecommandationEnrichie = z.infer<typeof RecommandationSchema> & {
   description: string;
   prerequis: string;
+  duree: string;
+  matieresPertinentes: string[];
+  etablissements: Omit<Etablissement, 'filieres'>[];
 };
 
 export type OrientationResult = Omit<OrientationResponse, 'recommandations'> & {
@@ -93,4 +99,37 @@ export const PreparationResponseSchema = z.object({
 
 export type PreparationResponse = z.infer<typeof PreparationResponseSchema>;
 
-export type PreparationResult = PreparationResponse & { filiereId: string; nom: string };
+export type PreparationResult = PreparationResponse & {
+  filiereId: string;
+  nom: string;
+  duree: string;
+  etablissements: Omit<Etablissement, 'filieres'>[];
+};
+
+// Discussion « Pose tes questions à Orienteme »
+export const ChatRequestSchema = z.object({
+  profil: OrientationRequestSchema,
+  recommandations: z
+    .array(z.object({ filiereId: z.string().trim().min(1).max(60), nom: z.string().trim().max(120) }))
+    .max(3)
+    .optional()
+    .default([]),
+  // Messages précédents, en alternance, en commençant par l'étudiant
+  historique: z
+    .array(z.object({ role: z.enum(['etudiant', 'orienteme']), texte: z.string().trim().min(1).max(2000) }))
+    .max(12)
+    .optional()
+    .default([]),
+  question: z.string().trim().min(1, 'Écris ta question').max(500),
+});
+
+export type ChatRequest = z.infer<typeof ChatRequestSchema>;
+
+export const ChatResponseSchema = z.object({
+  reponse: z.string().trim().min(1),
+});
+
+export type ChatResponse = z.infer<typeof ChatResponseSchema>;
+
+// Avis anonyme sur l'utilité des recommandations
+export const AvisRequestSchema = z.object({ utile: z.boolean() });

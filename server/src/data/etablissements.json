@@ -1,0 +1,240 @@
+{
+  "verifieLe": "2026-10-24",
+  "avertissement": "Liste indicative établie à partir de sources publiques. Les filières, conditions d'admission et dates de concours changent chaque année : vérifie toujours auprès de l'établissement.",
+  "etablissements": [
+    {
+      "id": "ul-fss",
+      "nom": "Faculté des Sciences de la Santé (FSS) — Université de Lomé",
+      "ville": "Lomé",
+      "statut": "public",
+      "filieres": ["sante"],
+      "details": "Médecine, pharmacie et odontostomatologie. Sélection sur dossier pour les BAC C et D (notes de SVT, mathématiques et physique).",
+      "source": "https://www.emploitogo.info/concours-dentree-a-la-faculte-des-sciences-de-la-sante-fss-2026-2027/"
+    },
+    {
+      "id": "uk-fss",
+      "nom": "Faculté des Sciences de la Santé (FSS) — Université de Kara",
+      "ville": "Kara",
+      "statut": "public",
+      "filieres": ["sante"],
+      "details": "Formations en sciences de la santé à l'Université de Kara.",
+      "source": "https://legrandfrere.africa/etablissement/universite-de-kara-uk/"
+    },
+    {
+      "id": "enam",
+      "nom": "École Nationale des Auxiliaires Médicaux (ENAM)",
+      "ville": "Lomé, Tsévié, Kpalimé, Atakpamé, Kara, Dapaong",
+      "statut": "public",
+      "filieres": ["sciences-infirmieres", "biologie-medicale"],
+      "details": "Infirmiers d'État, techniciens de laboratoire, kinésithérapeutes. Accès par concours national.",
+      "source": "https://edukiya.com/fiche/enam-togo-ecole-nationale-des-auxiliaires-medicaux/"
+    },
+    {
+      "id": "ensf",
+      "nom": "École Nationale des Sages-Femmes (ENSF)",
+      "ville": "Lomé, Kara, Tsévié, Kpalimé, Atakpamé, Dapaong",
+      "statut": "public",
+      "filieres": ["sciences-infirmieres"],
+      "details": "Formation de sages-femmes en 6 semestres, menant à une licence professionnelle. Accès par concours.",
+      "source": "https://legrandfrere.africa/etablissement/ecole-nationale-de-sages-femmes-ensf/"
+    },
+    {
+      "id": "ul-estba",
+      "nom": "École Supérieure des Techniques Biologiques et Alimentaires (ESTBA) — Université de Lomé",
+      "ville": "Lomé",
+      "statut": "public",
+      "filieres": ["biologie-medicale", "agroalimentaire-environnement"],
+      "details": "Licences en analyses médicales et biologiques, nutrition humaine et diététique, industries agroalimentaires, gestion de l'eau et de l'environnement. Pour les BAC C et D.",
+      "source": "https://www.emploitogo.info/?p=136519"
+    },
+    {
+      "id": "enp-lome",
+      "nom": "École Nationale Polytechnique (ENP) — campus de Lomé (ex-EPL)",
+      "ville": "Lomé",
+      "statut": "public",
+      "filieres": ["genie-civil", "genie-electrique", "genie-mecanique", "informatique", "intelligence-artificielle", "logistique-transport", "reseaux"],
+      "details": "Ingénieur (5 ans) : génie civil, électrique, mécanique, informatique et systèmes, IA et Big Data, logistique et transport. Licence professionnelle : génie logiciel, systèmes et réseaux. Accès par concours (BAC C, D, E ; F et Ti pour certaines licences).",
+      "source": "https://www.emploitogo.info/concours-enp-togo-2026/"
+    },
+    {
+      "id": "enp-kara",
+      "nom": "École Nationale Polytechnique (ENP) — campus de Kara",
+      "ville": "Kara",
+      "statut": "public",
+      "filieres": ["reseaux", "genie-civil", "genie-electrique", "genie-mecanique", "informatique", "agroalimentaire-environnement"],
+      "details": "Ingénieur : sécurité informatique et cybersécurité, génie civil, génie énergétique et habitat. Licence professionnelle : maintenance industrielle, équipements agro-industriels, génie logiciel, eau et assainissement. Accès par concours.",
+      "source": "https://www.emploitogo.info/concours-enp-togo-2026/"
+    },
+    {
+      "id": "ul-esa",
+      "nom": "École Supérieure d'Agronomie (ESA) — Université de Lomé",
+      "ville": "Lomé",
+      "statut": "public",
+      "filieres": ["agronomie"],
+      "details": "Formations en sciences agronomiques.",
+      "source": "https://www.whed.net/institutions/IAU-019609"
+    },
+    {
+      "id": "uk-isma",
+      "nom": "Institut Supérieur des Métiers de l'Agriculture (ISMA) — Université de Kara",
+      "ville": "Kara",
+      "statut": "public",
+      "filieres": ["agronomie"],
+      "details": "Formations aux métiers de l'agriculture.",
+      "source": "https://legrandfrere.africa/etablissement/universite-de-kara-uk/"
+    },
+    {
+      "id": "infa-tove",
+      "nom": "Institut National de Formation Agricole (INFA) de Tové",
+      "ville": "Tové (près de Kpalimé)",
+      "statut": "public",
+      "filieres": ["agronomie"],
+      "details": "Licence professionnelle agricole (accès par concours) et formations pratiques en production et élevage.",
+      "source": "https://www.republicoftogo.com/toutes-les-rubriques/developpement/l-infa-de-tove-s-adapte-aux-nouveaux-defis-du-secteur-agricole"
+    },
+    {
+      "id": "ul-faseg",
+      "nom": "Faculté des Sciences Économiques et de Gestion (FASEG) — Université de Lomé",
+      "ville": "Lomé",
+      "statut": "public",
+      "filieres": ["sciences-eco", "finance", "comptabilite"],
+      "details": "Sciences économiques et sciences de gestion.",
+      "source": "https://www.whed.net/institutions/IAU-019609"
+    },
+    {
+      "id": "uk-faseg",
+      "nom": "Faculté des Sciences Économiques et de Gestion (FaSEG) — Université de Kara",
+      "ville": "Kara",
+      "statut": "public",
+      "filieres": ["sciences-eco", "finance", "comptabilite"],
+      "details": "Sciences économiques et sciences de gestion.",
+      "source": "https://legrandfrere.africa/etablissement/universite-de-kara-uk/"
+    },
+    {
+      "id": "ul-iut-gestion",
+      "nom": "Institut Universitaire de Technologie (IUT) de Gestion — Université de Lomé",
+      "ville": "Lomé",
+      "statut": "public",
+      "filieres": ["comptabilite", "marketing"],
+      "details": "Options finance-comptabilité et gestion commerciale (à confirmer, source de 2012).",
+      "source": "https://www.diplomatie.gouv.fr/IMG/pdf/TOGO_Curie_14-02-12_cle8bdcf9.pdf"
+    },
+    {
+      "id": "ul-fdd",
+      "nom": "Faculté de Droit (FDD) — Université de Lomé",
+      "ville": "Lomé",
+      "statut": "public",
+      "filieres": ["droit"],
+      "details": "Droit privé, droit public, droit des affaires.",
+      "source": "https://www.whed.net/institutions/IAU-019609"
+    },
+    {
+      "id": "uk-fdsp",
+      "nom": "Faculté de Droit et des Sciences Politiques (FDSP) — Université de Kara",
+      "ville": "Kara",
+      "statut": "public",
+      "filieres": ["droit"],
+      "details": "Droit et sciences politiques.",
+      "source": "https://legrandfrere.africa/etablissement/universite-de-kara-uk/"
+    },
+    {
+      "id": "ul-isica",
+      "nom": "Institut des Sciences de l'Information, de la Communication et des Arts (ISICA) — Université de Lomé",
+      "ville": "Lomé",
+      "statut": "public",
+      "filieres": ["communication", "design-numerique"],
+      "details": "Licences professionnelles : communication des organisations, journalisme, publicité et arts graphiques. Concours ouvert aux BAC A4, C, D, G1 et G3.",
+      "source": "https://www.emploitogo.info/?p=136385"
+    },
+    {
+      "id": "ens-atakpame",
+      "nom": "École Normale Supérieure (ENS) d'Atakpamé",
+      "ville": "Atakpamé",
+      "statut": "public",
+      "filieres": ["enseignement"],
+      "details": "Licence professionnelle d'enseignement (3 ans) pour devenir professeur de collège, puis master professionnel. Recrutement sur candidature.",
+      "source": "https://legrandfrere.africa/etablissement/ens-atakpame/"
+    },
+    {
+      "id": "ul-inse",
+      "nom": "Institut National des Sciences de l'Éducation (INSE) — Université de Lomé",
+      "ville": "Lomé",
+      "statut": "public",
+      "filieres": ["enseignement"],
+      "details": "Formations en sciences de l'éducation.",
+      "source": "https://www.whed.net/institutions/IAU-019609"
+    },
+    {
+      "id": "ul-fds",
+      "nom": "Faculté des Sciences (FDS) — Université de Lomé",
+      "ville": "Lomé",
+      "statut": "public",
+      "filieres": ["maths-sciences"],
+      "details": "Mathématiques, physique, chimie, sciences de la vie et de la Terre.",
+      "source": "https://www.whed.net/institutions/IAU-019609"
+    },
+    {
+      "id": "uk-fast",
+      "nom": "Faculté des Sciences et Techniques (FAST) — Université de Kara",
+      "ville": "Kara",
+      "statut": "public",
+      "filieres": ["maths-sciences"],
+      "details": "Sciences fondamentales et techniques.",
+      "source": "https://legrandfrere.africa/etablissement/universite-de-kara-uk/"
+    },
+    {
+      "id": "eamau",
+      "nom": "École Africaine des Métiers de l'Architecture et de l'Urbanisme (EAMAU)",
+      "ville": "Lomé",
+      "statut": "inter-État",
+      "filieres": ["architecture-urbanisme"],
+      "details": "École inter-États (14 pays membres) : licences en architecture, urbanisme et gestion urbaine, puis masters.",
+      "source": "https://www.republicoftogo.com/toutes-les-rubriques/education/un-etablissement-regional-de-reference"
+    },
+    {
+      "id": "esgis",
+      "nom": "École Supérieure de Gestion, d'Informatique et des Sciences (ESGIS)",
+      "ville": "Lomé",
+      "statut": "privé",
+      "filieres": ["reseaux", "comptabilite", "marketing", "finance", "logistique-transport", "droit"],
+      "details": "Licences reconnues par le CAMES : informatique réseaux et télécoms, comptabilité-contrôle-audit, marketing, banque-finance-assurance, transport-logistique, droit privé.",
+      "source": "https://legrandfrere.africa/etablissement/esgis-togo/"
+    },
+    {
+      "id": "ipnet",
+      "nom": "IPNET Institute of Technology",
+      "ville": "Lomé",
+      "statut": "privé",
+      "filieres": ["reseaux", "genie-electrique"],
+      "details": "Licences en réseaux, systèmes et sécurité, en cybersécurité et en génie électrotechnique.",
+      "source": "https://legrandfrere.africa/etablissement/ipnet-institute-of-technology/"
+    },
+    {
+      "id": "lbs",
+      "nom": "Lomé Business School (LBS)",
+      "ville": "Lomé",
+      "statut": "privé",
+      "filieres": ["marketing"],
+      "details": "Formations en gestion des entreprises.",
+      "source": "https://legrandfrere.africa/etablissement/lome-business-school-lbs/"
+    },
+    {
+      "id": "esth-stella-matutina",
+      "nom": "École Supérieure du Tourisme et d'Hôtellerie Stella Matutina (ESTH-SM)",
+      "ville": "Lomé",
+      "statut": "privé",
+      "filieres": ["tourisme-hotellerie"],
+      "details": "École agréée par le ministère de l'Enseignement supérieur : BTS restauration et hébergement, BTH.",
+      "source": "https://legrandfrere.africa/etablissement/ecole-superieure-du-tourisme-et-dhotellerie-stella-matutina-esth-sm/"
+    },
+    {
+      "id": "hotel-ecole-la-savoureuse",
+      "nom": "Hôtel École La Savoureuse",
+      "ville": "Lomé (Agoè)",
+      "statut": "privé",
+      "filieres": ["tourisme-hotellerie"],
+      "details": "BTS hôtellerie (BTSH) et BTH, avec stages au Togo et à l'étranger.",
+      "source": "https://legrandfrere.africa/etablissement/hotel-ecole-la-savoureuse/"
+    }
+  ]
+}

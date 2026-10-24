@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { join } from 'path';
 import { ThinkingLevel } from '@google/genai';
 
 dotenv.config();
@@ -43,6 +44,11 @@ export const config = {
   timeoutMs: Number(process.env.GEMINI_TIMEOUT_MS) || 60_000,
   // Réflexion minimale par défaut : mesuré sur Gemma 4, ~20 s au lieu de 45 à 110 s, réponses aussi valides
   thinkingLevel: parseThinkingLevel(process.env.GEMINI_THINKING_LEVEL ?? 'minimal'),
+  // Mot de passe de l'espace conseillers ; vide = espace désactivé
+  adminToken: process.env.ADMIN_TOKEN?.trim() ?? '',
+  statsFile: process.env.STATS_FILE?.trim() || join(__dirname, '../data/stats.jsonl'),
+  // Derrière un hébergeur (Render, Railway…), l'IP du visiteur vient de l'en-tête X-Forwarded-For
+  trustProxy: process.env.TRUST_PROXY === '1',
   corsOrigins: parseList(
     process.env.CORS_ORIGINS ??
       'http://localhost:5173,http://localhost:5174,http://localhost:4173,http://localhost:3000'

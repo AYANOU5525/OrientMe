@@ -1,0 +1,27 @@
+# Déploiement Orienteme sur Render (https://render.com) : New + → Blueprint → choisir ce dépôt GitHub.
+# Un seul service web : le serveur Express distribue l'API et l'interface compilée (client/dist).
+services:
+  - type: web
+    name: orienteme
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm run install:all && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # À saisir dans le tableau de bord Render (jamais dans le dépôt)
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemma-4-26b-a4b-it
+      - key: GEMINI_FALLBACK_MODELS
+        value: gemma-4-31b-it
+      # Mot de passe de l'espace conseillers, généré par Render (visible dans Environment)
+      - key: ADMIN_TOKEN
+        generateValue: true
+      # Render est un proxy : sans cela, tous les visiteurs partageraient la même limite de requêtes
+      - key: TRUST_PROXY
+        value: "1"

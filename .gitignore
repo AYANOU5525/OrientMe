@@ -4,3 +4,5 @@ dist/
 .env
 .env.*
 !.env.example
+# Statistiques anonymes de l'espace conseillers (propres à chaque serveur)
+server/data/

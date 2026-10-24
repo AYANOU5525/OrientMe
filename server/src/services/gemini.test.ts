@@ -157,3 +157,46 @@ test('refuse un plan de rentrée pour une filière hors catalogue, sans appeler 
   );
   assert.equal(calls.length, 0);
 });
+
+test('le plan de rentrée inclut la durée et les écoles vérifiées de la filière', async () => {
+  const { getPreparation } = await loadService();
+  const { caller } = fakeCaller(JSON.stringify(exemplePreparation));
+
+  const { result } = await getPreparation({ profil, filiereId: 'informatique', competencesARenforcer: [] }, caller);
+
+  assert.ok(result.duree);
+  assert.ok(result.etablissements.some((e) => e.nom.includes('Polytechnique')));
+});
+
+test('transmet les réponses du questionnaire de personnalité', async () => {
+  const { getRecommendations } = await loadService();
+  const { caller, calls } = fakeCaller(validJson);
+
+  await getRecommendations({ ...profil, personnalite: ['Tu préfères travailler : sur le terrain'] }, caller);
+
+  assert.match(JSON.stringify(calls[0]), /sur le terrain/);
+});
+
+test('répond à une question en tenant compte de l\'historique et des écoles vérifiées', async () => {
+  const { getChatReponse } = await loadService();
+  const { caller, calls } = fakeCaller(JSON.stringify({ reponse: 'La licence dure 3 ans.' }));
+
+  const { result } = await getChatReponse(
+    {
+      profil,
+      recommandations: [{ filiereId: 'informatique', nom: 'Informatique' }],
+      historique: [
+        { role: 'etudiant', texte: 'Bonjour' },
+        { role: 'orienteme', texte: 'Bonjour Kofi !' },
+      ],
+      question: 'Combien de temps durent les études ?',
+    },
+    caller
+  );
+
+  assert.equal(result.reponse, 'La licence dure 3 ans.');
+  const contents = calls[0].contents as Array<{ role: string; parts: Array<{ text: string }> }>;
+  assert.deepEqual(contents.map((c) => c.role), ['user', 'model', 'user']);
+  assert.match(contents[2].parts[0].text, /Combien de temps/);
+  assert.match(JSON.stringify(calls[0]), /École Nationale Polytechnique/);
+});

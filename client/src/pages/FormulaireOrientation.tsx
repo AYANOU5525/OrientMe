@@ -4,6 +4,7 @@ import { ProgressBar } from '../components/ProgressBar';
 import type { DonneesFormulaire } from '../types';
 import {
   PROFIL_EXEMPLE,
+  QUESTIONS_PERSONNALITE,
   SERIES_BAC,
   MATIERES_PAR_SERIE,
   COMPETENCES_LISTE,
@@ -17,9 +18,9 @@ interface FormulaireProps {
   onBack: () => void;
 }
 
-type EtapeForm = 1 | 2 | 3;
+type EtapeForm = 1 | 2 | 3 | 4;
 
-const ETAPE_LABELS = ['Profil scolaire', 'Compétences', 'Aspirations'];
+const ETAPE_LABELS = ['Profil scolaire', 'Compétences', 'Aspirations', 'Personnalité'];
 
 export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, onSubmit, onBack }) => {
   const [etape, setEtape] = useState<EtapeForm>(1);
@@ -50,6 +51,9 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, 
     initialData?.aspirations.preferenceFormation ?? 'les-deux'
   );
 
+  // État Étape 4 (facultative)
+  const [personnalite, setPersonnalite] = useState<Record<string, string>>(initialData?.personnalite ?? {});
+
   // Sur mobile, chaque étape doit s'afficher depuis le haut
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -59,7 +63,7 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, 
 
   // Pré-remplit le formulaire ; l'analyse est ensuite faite par l'IA comme pour tout profil
   const remplirAvecExemple = () => {
-    const { profil, competences, aspirations } = PROFIL_EXEMPLE;
+    const { profil, competences, aspirations, personnalite: personnaliteExemple } = PROFIL_EXEMPLE;
     setPrenom(profil.prenom);
     setSerieBAC(profil.serieBAC);
     setNotes(Object.fromEntries(Object.entries(profil.notes).map(([m, n]) => [m, String(n)])));
@@ -69,7 +73,18 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, 
     setMetierSouhaite(aspirations.metierSouhaite);
     setLoisirs(aspirations.loisirs);
     setPreferenceFormation(aspirations.preferenceFormation);
+    setPersonnalite(personnaliteExemple);
     setErrors({});
+  };
+
+  // Un second clic sur la réponse déjà choisie l'efface : chaque question reste facultative
+  const choisirReponse = (questionId: string, reponse: string) => {
+    setPersonnalite((prev) => {
+      const suivant = { ...prev };
+      if (suivant[questionId] === reponse) delete suivant[questionId];
+      else suivant[questionId] = reponse;
+      return suivant;
+    });
   };
 
   const toggleItem = <T extends string>(list: T[], item: T, setter: (v: T[]) => void) => {
@@ -119,7 +134,8 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, 
   const handleNext = () => {
     if (etape === 1 && validerEtape1()) setEtape(2);
     else if (etape === 2 && validerEtape2()) setEtape(3);
-    else if (etape === 3 && validerEtape3()) {
+    else if (etape === 3 && validerEtape3()) setEtape(4);
+    else if (etape === 4) {
       // Construire les données finales
       const notesFinales: Record<string, number> = {};
       matieres.forEach((m) => {
@@ -133,6 +149,7 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, 
         profil: { prenom: prenom.trim(), serieBAC, notes: notesFinales },
         competences: { competences: competencesSelectionnees, autreCompetence },
         aspirations: { domainesInteret, metierSouhaite, loisirs, preferenceFormation },
+        personnalite,
       });
     }
   };
@@ -152,12 +169,12 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, 
           </button>
           <div className="form-header-info">
             <GraduationCap size={22} className="color-primary" />
-            <span className="form-step-label">Étape {etape} sur 3</span>
+            <span className="form-step-label">Étape {etape} sur 4</span>
           </div>
         </div>
 
         {/* Progress */}
-        <ProgressBar step={etape} totalSteps={3} labels={ETAPE_LABELS} />
+        <ProgressBar step={etape} totalSteps={4} labels={ETAPE_LABELS} />
 
         {/* ÉTAPE 1 */}
         {etape === 1 && (
@@ -379,6 +396,44 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, 
           </div>
         )}
 
+        {/* ÉTAPE 4 */}
+        {etape === 4 && (
+          <div className="form-etape">
+            <h2 className="form-etape-title">Et toi, comment es-tu ?</h2>
+            <p className="form-etape-subtitle">
+              Facultatif : ces questions rapides aident l'IA à affiner tes recommandations. Réponds spontanément, il
+              n'y a pas de mauvaise réponse.
+            </p>
+
+            {QUESTIONS_PERSONNALITE.map((q) => (
+              <div key={q.id} className="form-group">
+                <p className="form-label">{q.question}</p>
+                <div className="chips-grid">
+                  {q.options.map((option) => {
+                    const isSelected = personnalite[q.id] === option;
+                    return (
+                      <button
+                        key={option}
+                        type="button"
+                        className={`chip ${isSelected ? 'chip-selected' : ''}`}
+                        aria-pressed={isSelected}
+                        onClick={() => choisirReponse(q.id, option)}
+                      >
+                        {isSelected && <span className="chip-check">✓</span>}
+                        {option}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+
+            <p className="selection-count">
+              {Object.keys(personnalite).length} réponse(s) sur {QUESTIONS_PERSONNALITE.length}
+            </p>
+          </div>
+        )}
+
         {/* Navigation */}
         <div className="form-nav">
           <button className="btn btn-outline" onClick={handleBack}>
@@ -386,7 +441,7 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, 
             Précédent
           </button>
           <button className="btn btn-primary" onClick={handleNext}>
-            {etape === 3 ? (
+            {etape === 4 ? (
               <>
                 Découvrir mes filières
                 <span className="ml-1">✨</span>

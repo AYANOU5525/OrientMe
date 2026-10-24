@@ -23,7 +23,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onStart, onHowItWorks }) => {
             Comment ça marche
           </a>
           <button className="btn btn-primary btn-sm" onClick={onStart}>
-            Commencer mon orientation
+            <span className="label-long">Commencer mon orientation</span>
+            <span className="label-court">Commencer</span>
           </button>
         </div>
       </div>
