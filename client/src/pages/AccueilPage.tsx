@@ -160,7 +160,7 @@ export const AccueilPage: React.FC<AccueilPageProps> = ({ onStart }) => {
       <section className="section-avantages">
         <div className="section-container">
           <div className="section-header">
-            <h2 className="section-title">Pourquoi OrientaTogo AI ?</h2>
+            <h2 className="section-title">Pourquoi Orienteme ?</h2>
           </div>
 
           <div className="avantages-grid">
@@ -198,7 +198,7 @@ export const AccueilPage: React.FC<AccueilPageProps> = ({ onStart }) => {
       {/* FOOTER */}
       <footer className="footer">
         <div className="footer-inner">
-          <p>OrientaTogo AI — Hackathon Togo 2024 · Propulsé par Gemma via l'API Google Gemini</p>
+          <p>Orienteme — Hackathon Togo 2024</p>
           <p className="footer-note">
             Les recommandations sont indicatives et ne remplacent pas un conseiller d'orientation professionnel.
           </p>

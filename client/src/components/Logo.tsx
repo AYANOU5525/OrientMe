@@ -19,10 +19,8 @@ export const Logo: React.FC<LogoProps> = ({ size = 'md', className = '' }) => {
         <GraduationCap size={sizes[size].icon} />
       </div>
       <div className={`logo-text ${sizes[size].text}`}>
-        <span className="logo-orient">Orient</span>
-        <span className="logo-a">a</span>
-        <span className="logo-togo">Togo</span>
-        <span className="logo-ai"> AI</span>
+        <span className="logo-oriente">Oriente</span>
+        <span className="logo-me">me</span>
       </div>
     </div>
   );

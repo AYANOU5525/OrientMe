@@ -1,5 +1,5 @@
 /* ============================================================
-   OrientaTogo AI — Design System
+   Orienteme — Design System
    Palette: Bleu #163B73 | Turquoise #16B8A6 | Orange #F5A524
    ============================================================ */
 
@@ -193,14 +193,8 @@ ul { list-style: none; }
   font-weight: 800;
   line-height: 1;
 }
-.logo-orient { color: var(--color-primary); }
-.logo-a { color: var(--color-secondary); }
-.logo-togo { color: var(--color-primary); }
-.logo-ai {
-  color: var(--color-accent);
-  font-size: 0.7em;
-  font-weight: 700;
-}
+.logo-oriente { color: var(--color-primary); }
+.logo-me { color: var(--color-secondary); }
 
 /* ========================================================
    HERO SECTION
@@ -755,18 +749,6 @@ ul { list-style: none; }
   line-height: 1.25;
 }
 .resultats-subtitle { font-size: 0.92rem; color: var(--color-text-muted); }
-.resultats-model {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 8px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(22, 184, 166, 0.1);
-  color: var(--color-secondary-dark);
-  font-size: 0.8rem;
-  font-weight: 600;
-}
 
 /* Profil card */
 .profil-card {

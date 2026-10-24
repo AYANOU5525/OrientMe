@@ -13,7 +13,6 @@ import {
   Star,
   X,
   BookOpen,
-  Cpu,
   GraduationCap,
 } from 'lucide-react';
 import type { ResultatOrientation, Recommandation } from '../types';
@@ -22,8 +21,6 @@ import { Logo } from '../components/Logo';
 interface ResultatsPageProps {
   prenom: string;
   resultats: ResultatOrientation;
-  // Modèle Gemma ayant généré l'analyse
-  modele: string;
   // Filière retenue par l'étudiant : déclenche le plan de rentrée
   onChoisir: (recommandation: Recommandation) => void;
   onRecommencer: () => void;
@@ -228,7 +225,6 @@ const RecommandationCard: React.FC<{
 export const ResultatsPage: React.FC<ResultatsPageProps> = ({
   prenom,
   resultats,
-  modele,
   onChoisir,
   onRecommencer,
   onModifier,
@@ -250,10 +246,7 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
               {prenom ? `${prenom}, voici` : 'Voici'} les pistes qui correspondent à ton profil
             </h1>
             <p className="resultats-subtitle">
-              OrientaTogo AI a analysé ton profil complet pour te proposer trois orientations adaptées.
-            </p>
-            <p className="resultats-model">
-              <Cpu size={14} /> Analyse générée par Gemma ({modele}) via l'API Google Gemini
+              Orienteme a analysé ton profil complet pour te proposer trois orientations adaptées.
             </p>
           </div>
         </div>
@@ -294,7 +287,7 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
         <div className="recommandations-section">
           <h2 className="recommandations-title">Tes trois recommandations</h2>
           <p className="recommandations-hint no-print">
-            Choisis la filière qui te correspond le mieux : Gemma te dira ce que tu dois maîtriser avant la rentrée.
+            Choisis la filière qui te correspond le mieux : nous te dirons ce que tu dois maîtriser avant la rentrée.
           </p>
           <div className="recommandations-grid">
             {resultats.recommandations.map((rec, i) => (

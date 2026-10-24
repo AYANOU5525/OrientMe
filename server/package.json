@@ -1,7 +1,7 @@
 {
-  "name": "orientatogo-server",
+  "name": "orienteme-server",
   "version": "1.0.0",
-  "description": "OrientaTogo AI - Backend Express",
+  "description": "Orienteme - Backend Express",
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",

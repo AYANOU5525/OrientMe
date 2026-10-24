@@ -1,4 +1,4 @@
-# OrientaTogo AI 🎓
+# Orienteme 🎓
 
 > **Ton avenir commence par le bon choix.**
 
@@ -8,16 +8,16 @@ Plateforme d'orientation post-BAC par intelligence artificielle pour les nouveau
 
 ## 📋 Description
 
-OrientaTogo AI analyse trois dimensions du profil d'un étudiant :
+Orienteme analyse trois dimensions du profil d'un étudiant :
 1. **Performances scolaires** — série du BAC et notes par matière
 2. **Compétences personnelles** — ce que l'étudiant sait faire
 3. **Aspirations professionnelles** — domaines d'intérêt et métiers souhaités
 
-Le modèle **Gemma 4**, servi par l'**API Google Gemini**, génère **trois recommandations de filières** personnalisées, choisies dans un catalogue de 15 filières, avec justifications, compétences à renforcer, débouchés et conseils.
+L'intelligence artificielle génère **trois recommandations de filières** personnalisées, choisies dans un catalogue de 15 filières, avec justifications, compétences à renforcer, débouchés et conseils.
 
-Une fois sa filière choisie, l'étudiant reçoit de Gemma un **plan de rentrée** personnalisé : ce qu'il doit maîtriser avant la rentrée, un plan par étapes pour les vacances et des ressources gratuites.
+Une fois sa filière choisie, l'étudiant reçoit un **plan de rentrée** personnalisé : ce qu'il doit maîtriser avant la rentrée, un plan par étapes pour les vacances et des ressources gratuites.
 
-> **Toute orientation passe par Gemma.** Aucun résultat préenregistré n'est jamais affiché, et le serveur refuse de démarrer si un modèle autre que Gemma est configuré.
+> **Toute orientation est générée par l'IA.** Aucun résultat préenregistré n'est jamais affiché. Le modèle utilisé (Gemma, via l'API Gemini) n'est mentionné nulle part dans l'interface ; il n'apparaît que dans la configuration technique ci-dessous.
 
 ---
 

@@ -69,11 +69,9 @@ export interface ResultatOrientation {
 export interface ApiResponse {
   success: boolean;
   data: ResultatOrientation;
-  // Modèle Gemma ayant produit l'analyse (ex. gemma-4-26b-a4b-it)
-  model: string;
 }
 
-// Plan de rentrée généré par Gemma une fois la filière choisie
+// Plan de rentrée généré par l'IA une fois la filière choisie
 export interface PointAMaitriser {
   titre: string;
   pourquoi: string;
@@ -105,12 +103,11 @@ export interface DemandePreparation {
 export interface PlanRentreeResponse {
   success: boolean;
   data: PlanRentree;
-  model: string;
 }
 
 export type EtapeFormulaire = 'accueil' | 'scolaire' | 'competences' | 'aspirations' | 'chargement' | 'resultats';
 
-// Profil fictif pour essayer l'application : il est analysé par Gemma comme un vrai profil
+// Profil fictif pour essayer l'application : il est analysé par l'IA comme un vrai profil
 export const PROFIL_EXEMPLE: DonneesFormulaire = {
   profil: {
     prenom: 'Kofi',

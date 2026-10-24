@@ -50,7 +50,7 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
 app.use(errorHandler);
 
 app.listen(config.port, () => {
-  console.log(`✅ Serveur OrientaTogo AI démarré sur http://localhost:${config.port}`);
+  console.log(`✅ Serveur Orienteme démarré sur http://localhost:${config.port}`);
   console.log(`📋 Modèles (ordre d'essai) : ${config.models.join(' → ')}`);
 
   if (!isAiConfigured()) {

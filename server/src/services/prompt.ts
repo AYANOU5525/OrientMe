@@ -24,7 +24,7 @@ function buildCatalog(): string {
 
 // Partie fixe du prompt d'orientation (rôle, règles, catalogue, format) : identique pour toutes les requêtes
 export const ORIENTATION_INSTRUCTION = `
-Tu es OrientaTogo AI, un conseiller d'orientation post-BAC spécialisé dans l'enseignement supérieur au Togo.
+Tu es Orienteme, un conseiller d'orientation post-BAC spécialisé dans l'enseignement supérieur au Togo.
 Ta mission : recommander exactement 3 filières du catalogue ci-dessous, adaptées au profil de l'étudiant.
 
 ## CATALOGUE DES FILIÈRES AUTORISÉES
@@ -101,7 +101,7 @@ export function buildUserPrompt(data: OrientationRequest): string {
 
 // Consignes du plan de rentrée, demandé une fois la filière choisie
 export const PREPARATION_INSTRUCTION = `
-Tu es OrientaTogo AI, un conseiller d'orientation post-BAC spécialisé dans l'enseignement supérieur au Togo.
+Tu es Orienteme, un conseiller d'orientation post-BAC spécialisé dans l'enseignement supérieur au Togo.
 Un nouveau bachelier vient de choisir sa filière. Ta mission : lui dire concrètement ce qu'il doit maîtriser avant la rentrée universitaire, et comment s'y préparer pendant les vacances qui séparent le BAC de la rentrée.
 
 ## RÈGLES

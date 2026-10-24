@@ -4,7 +4,6 @@ import {
   ArrowLeft,
   BookOpen,
   CalendarDays,
-  Cpu,
   ListChecks,
   Printer,
   RotateCcw,
@@ -16,8 +15,6 @@ import { Logo } from '../components/Logo';
 interface PreparationPageProps {
   prenom: string;
   plan: PlanRentree;
-  // Modèle Gemma ayant généré le plan
-  modele: string;
   onRetourResultats: () => void;
   onRecommencer: () => void;
 }
@@ -25,7 +22,6 @@ interface PreparationPageProps {
 export const PreparationPage: React.FC<PreparationPageProps> = ({
   prenom,
   plan,
-  modele,
   onRetourResultats,
   onRecommencer,
 }) => {
@@ -39,9 +35,6 @@ export const PreparationPage: React.FC<PreparationPageProps> = ({
               {prenom ? `${prenom}, prépare` : 'Prépare'} ta rentrée en {plan.nom}
             </h1>
             <p className="prep-intro">{plan.introduction}</p>
-            <p className="resultats-model">
-              <Cpu size={14} /> Plan généré par Gemma ({modele}) via l'API Google Gemini
-            </p>
           </div>
         </div>
 

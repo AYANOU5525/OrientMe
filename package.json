@@ -1,7 +1,7 @@
 {
-  "name": "orientatogo-ai",
+  "name": "orienteme",
   "version": "1.0.0",
-  "description": "OrientaTogo AI — Orientation post-BAC par IA pour le Togo",
+  "description": "Orienteme — Orientation post-BAC par IA pour le Togo",
   "scripts": {
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev",
@@ -14,8 +14,7 @@
     "togo",
     "edtech",
     "gemini",
-    "gemma",
     "ia"
   ],
-  "author": "OrientaTogo AI Team"
+  "author": "Orienteme Team"
 }

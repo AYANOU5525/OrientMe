@@ -3,8 +3,8 @@ import { Brain, Sparkles } from 'lucide-react';
 
 const VARIANTES = {
   orientation: {
-    titre: 'Gemma analyse ton profil',
-    sousTitre: "Le modèle d'IA Gemma de Google croise tes données pour te proposer les filières les plus adaptées.",
+    titre: 'Orienteme analyse ton profil',
+    sousTitre: 'Notre intelligence artificielle croise tes données pour te proposer les filières les plus adaptées.',
     steps: [
       'Analyse de tes résultats scolaires...',
       'Évaluation de tes compétences...',
@@ -14,8 +14,8 @@ const VARIANTES = {
     ],
   },
   preparation: {
-    titre: 'Gemma prépare ta rentrée',
-    sousTitre: "Le modèle d'IA Gemma de Google construit un plan adapté à ton profil et à la filière que tu as choisie.",
+    titre: 'Orienteme prépare ta rentrée',
+    sousTitre: 'Notre intelligence artificielle construit un plan adapté à ton profil et à la filière que tu as choisie.',
     steps: [
       'Étude de la filière choisie...',
       'Repérage de tes points à renforcer...',

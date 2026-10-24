@@ -158,14 +158,14 @@ function toAppError(error: unknown, timedOut: boolean): AppError {
       return new AppError(
         'AI_QUOTA',
         429,
-        'Le quota de l\'API Gemini est atteint. Patiente une minute avant de réessayer.'
+        'Le service est très sollicité en ce moment. Patiente une minute avant de réessayer.'
       );
     }
     if (error.status === 401 || error.status === 403 || (error.status === 400 && /api key/i.test(error.message))) {
       return new AppError(
         'AI_NOT_CONFIGURED',
         503,
-        'La clé API Gemini est invalide ou n\'a pas accès au modèle configuré.'
+        'Le service d\'orientation est mal configuré (clé API invalide).'
       );
     }
   }
@@ -182,7 +182,7 @@ async function runGemma<T>(task: GemmaTask<T>, callModel: ModelCaller): Promise<
     throw new AppError(
       'AI_NOT_CONFIGURED',
       503,
-      'Le service d\'orientation IA n\'est pas configuré (clé API Gemini manquante).'
+      'Le service d\'orientation n\'est pas encore configuré (clé API manquante).'
     );
   }
 

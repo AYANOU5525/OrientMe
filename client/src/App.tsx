@@ -40,7 +40,6 @@ function App() {
   const [etape, setEtape] = useState<EtapeApp>('accueil');
   const [action, setAction] = useState<Action>('orientation');
   const [resultats, setResultats] = useState<ResultatOrientation | null>(null);
-  const [modele, setModele] = useState('');
   const [prenom, setPrenom] = useState('');
   const [erreur, setErreur] = useState<{ message: string; code: CodeErreur }>({
     message: '',
@@ -48,7 +47,7 @@ function App() {
   });
   const [dernierProfil, setDernierProfil] = useState<DonneesFormulaire | null>(null);
   const [filiereChoisie, setFiliereChoisie] = useState<Recommandation | null>(null);
-  const [plan, setPlan] = useState<{ data: PlanRentree; modele: string } | null>(null);
+  const [plan, setPlan] = useState<PlanRentree | null>(null);
 
   // Chaque nouvel écran s'affiche depuis le haut
   useEffect(() => {
@@ -73,14 +72,13 @@ function App() {
     try {
       const response = await soumettreOrientation(versDemande(data));
       setResultats(response.data);
-      setModele(response.model);
       setEtape('resultats');
     } catch (error: unknown) {
       afficherErreur(error);
     }
   };
 
-  // L'étudiant a choisi sa filière : Gemma lui prépare un plan pour la rentrée
+  // L'étudiant a choisi sa filière : l'IA lui prépare un plan pour la rentrée
   const handleChoisirFiliere = async (recommandation: Recommandation) => {
     // Sans profil en mémoire, le plan ne peut pas être personnalisé : retour au formulaire
     if (!dernierProfil) {
@@ -97,7 +95,7 @@ function App() {
         filiereId: recommandation.filiereId,
         competencesARenforcer: recommandation.competencesARenforcer.slice(0, 5),
       });
-      setPlan({ data: response.data, modele: response.model });
+      setPlan(response.data);
       setEtape('preparation');
     } catch (error: unknown) {
       afficherErreur(error);
@@ -171,7 +169,6 @@ function App() {
         <ResultatsPage
           prenom={prenom}
           resultats={resultats}
-          modele={modele}
           onChoisir={handleChoisirFiliere}
           onRecommencer={handleRecommencer}
           onModifier={handleModifier}
@@ -181,8 +178,7 @@ function App() {
       {etape === 'preparation' && plan && (
         <PreparationPage
           prenom={prenom}
-          plan={plan.data}
-          modele={plan.modele}
+          plan={plan}
           onRetourResultats={() => setEtape('resultats')}
           onRecommencer={handleRecommencer}
         />

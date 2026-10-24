@@ -57,7 +57,7 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, 
 
   const matieres = serieBAC ? MATIERES_PAR_SERIE[serieBAC] || MATIERES_PAR_SERIE['Autre série'] : [];
 
-  // Pré-remplit le formulaire ; l'analyse passera quand même par Gemma
+  // Pré-remplit le formulaire ; l'analyse est ensuite faite par l'IA comme pour tout profil
   const remplirAvecExemple = () => {
     const { profil, competences, aspirations } = PROFIL_EXEMPLE;
     setPrenom(profil.prenom);
