@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, User, GraduationCap } from 'lucide-react';
 import { ProgressBar } from '../components/ProgressBar';
+import type { DonneesFormulaire } from '../types';
 import {
-  ProfilScolaire,
-  Competences,
-  Aspirations,
   SERIES_BAC,
   MATIERES_PAR_SERIE,
   COMPETENCES_LISTE,
@@ -12,11 +10,9 @@ import {
 } from '../types';
 
 interface FormulaireProps {
-  onSubmit: (data: {
-    profil: ProfilScolaire;
-    competences: Competences;
-    aspirations: Aspirations;
-  }) => void;
+  // Réponses précédentes, pour « Modifier mes réponses »
+  initialData?: DonneesFormulaire;
+  onSubmit: (data: DonneesFormulaire) => void;
   onBack: () => void;
 }
 
@@ -24,24 +20,39 @@ type EtapeForm = 1 | 2 | 3;
 
 const ETAPE_LABELS = ['Profil scolaire', 'Compétences', 'Aspirations'];
 
-export const FormulaireOrientation: React.FC<FormulaireProps> = ({ onSubmit, onBack }) => {
+export const FormulaireOrientation: React.FC<FormulaireProps> = ({ initialData, onSubmit, onBack }) => {
   const [etape, setEtape] = useState<EtapeForm>(1);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   // État Étape 1
-  const [prenom, setPrenom] = useState('');
-  const [serieBAC, setSerieBAC] = useState('');
-  const [notes, setNotes] = useState<Record<string, string>>({});
+  const [prenom, setPrenom] = useState(initialData?.profil.prenom ?? '');
+  const [serieBAC, setSerieBAC] = useState(initialData?.profil.serieBAC ?? '');
+  const [notes, setNotes] = useState<Record<string, string>>(() =>
+    Object.fromEntries(
+      Object.entries(initialData?.profil.notes ?? {}).map(([matiere, note]) => [matiere, String(note)])
+    )
+  );
 
   // État Étape 2
-  const [competencesSelectionnees, setCompetencesSelectionnees] = useState<string[]>([]);
-  const [autreCompetence, setAutreCompetence] = useState('');
+  const [competencesSelectionnees, setCompetencesSelectionnees] = useState<string[]>(
+    initialData?.competences.competences ?? []
+  );
+  const [autreCompetence, setAutreCompetence] = useState(initialData?.competences.autreCompetence ?? '');
 
   // État Étape 3
-  const [domainesInteret, setDomainesInteret] = useState<string[]>([]);
-  const [metierSouhaite, setMetierSouhaite] = useState('');
-  const [loisirs, setLoisirs] = useState('');
-  const [preferenceFormation, setPreferenceFormation] = useState<'theorique' | 'pratique' | 'les-deux'>('les-deux');
+  const [domainesInteret, setDomainesInteret] = useState<string[]>(
+    initialData?.aspirations.domainesInteret ?? []
+  );
+  const [metierSouhaite, setMetierSouhaite] = useState(initialData?.aspirations.metierSouhaite ?? '');
+  const [loisirs, setLoisirs] = useState(initialData?.aspirations.loisirs ?? '');
+  const [preferenceFormation, setPreferenceFormation] = useState<'theorique' | 'pratique' | 'les-deux'>(
+    initialData?.aspirations.preferenceFormation ?? 'les-deux'
+  );
+
+  // Sur mobile, chaque étape doit s'afficher depuis le haut
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [etape]);
 
   const matieres = serieBAC ? MATIERES_PAR_SERIE[serieBAC] || MATIERES_PAR_SERIE['Autre série'] : [];
 
@@ -101,13 +112,10 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ onSubmit, onB
         }
       });
 
-      const allCompetences = autreCompetence.trim()
-        ? [...competencesSelectionnees, autreCompetence.trim()]
-        : competencesSelectionnees;
-
+      // La compétence libre reste séparée : App l'ajoute à la liste au moment de l'envoi
       onSubmit({
-        profil: { prenom, serieBAC, notes: notesFinales },
-        competences: { competences: allCompetences, autreCompetence },
+        profil: { prenom: prenom.trim(), serieBAC, notes: notesFinales },
+        competences: { competences: competencesSelectionnees, autreCompetence },
         aspirations: { domainesInteret, metierSouhaite, loisirs, preferenceFormation },
       });
     }
@@ -147,8 +155,9 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ onSubmit, onB
 
             {/* Prénom */}
             <div className="form-group">
-              <label className="form-label">Prénom *</label>
+              <label className="form-label" htmlFor="prenom">Prénom *</label>
               <input
+                id="prenom"
                 type="text"
                 className={`form-input ${errors.prenom ? 'input-error' : ''}`}
                 placeholder="Ton prénom"
@@ -161,8 +170,9 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ onSubmit, onB
 
             {/* Série BAC */}
             <div className="form-group">
-              <label className="form-label">Série du BAC *</label>
+              <label className="form-label" htmlFor="serie-bac">Série du BAC *</label>
               <select
+                id="serie-bac"
                 className={`form-select ${errors.serieBAC ? 'input-error' : ''}`}
                 value={serieBAC}
                 onChange={(e) => {
@@ -191,9 +201,10 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ onSubmit, onB
                 <div className="notes-grid">
                   {matieres.map((matiere) => (
                     <div key={matiere} className="note-item">
-                      <label className="note-label">{matiere}</label>
+                      <label className="note-label" htmlFor={`note-${matiere}`}>{matiere}</label>
                       <div className="note-input-wrapper">
                         <input
+                          id={`note-${matiere}`}
                           type="number"
                           className="note-input"
                           placeholder="—"
@@ -246,8 +257,9 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ onSubmit, onB
             </div>
 
             <div className="form-group mt-4">
-              <label className="form-label">Une autre compétence ? (optionnel)</label>
+              <label className="form-label" htmlFor="autre-competence">Une autre compétence ? (optionnel)</label>
               <input
+                id="autre-competence"
                 type="text"
                 className="form-input"
                 placeholder="Ex: Jouer d'un instrument, Parler 3 langues..."
@@ -297,8 +309,9 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ onSubmit, onB
 
             {/* Métier souhaité */}
             <div className="form-group">
-              <label className="form-label">Quel métier aimerais-tu exercer ? (optionnel)</label>
+              <label className="form-label" htmlFor="metier">Quel métier aimerais-tu exercer ? (optionnel)</label>
               <input
+                id="metier"
                 type="text"
                 className="form-input"
                 placeholder="Ex: Médecin, Ingénieur logiciel, Entrepreneur..."
@@ -310,8 +323,9 @@ export const FormulaireOrientation: React.FC<FormulaireProps> = ({ onSubmit, onB
 
             {/* Loisirs */}
             <div className="form-group">
-              <label className="form-label">Qu'aimes-tu faire pendant ton temps libre ? (optionnel)</label>
+              <label className="form-label" htmlFor="loisirs">Qu'aimes-tu faire pendant ton temps libre ? (optionnel)</label>
               <textarea
+                id="loisirs"
                 className="form-textarea"
                 placeholder="Ex: Regarder des tutoriels informatiques, Dessiner, Jardiner..."
                 value={loisirs}

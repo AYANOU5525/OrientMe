@@ -5,8 +5,17 @@
   "scripts": {
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev",
-    "install:all": "cd client && npm install && cd ../server && npm install"
+    "install:all": "cd client && npm install && cd ../server && npm install",
+    "build": "cd server && npm run build && cd ../client && npm run build",
+    "test": "cd server && npm test"
   },
-  "keywords": ["orientation", "togo", "edtech", "gemini", "ia"],
+  "keywords": [
+    "orientation",
+    "togo",
+    "edtech",
+    "gemini",
+    "gemma",
+    "ia"
+  ],
   "author": "OrientaTogo AI Team"
 }

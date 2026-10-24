@@ -1,15 +1,15 @@
 import React from 'react';
 import { Brain, Sparkles } from 'lucide-react';
 
-export const LoadingScreen: React.FC = () => {
-  const steps = [
-    'Analyse de tes résultats scolaires...',
-    'Évaluation de tes compétences...',
-    'Identification de tes aspirations...',
-    'Consultation de notre base de filières...',
-    'Génération de tes recommandations personnalisées...',
-  ];
+const steps = [
+  'Analyse de tes résultats scolaires...',
+  'Évaluation de tes compétences...',
+  'Identification de tes aspirations...',
+  'Consultation de notre base de filières...',
+  'Génération de tes recommandations personnalisées...',
+];
 
+export const LoadingScreen: React.FC = () => {
   const [currentStep, setCurrentStep] = React.useState(0);
 
   React.useEffect(() => {
@@ -65,7 +65,7 @@ export const LoadingScreen: React.FC = () => {
             }}
           />
         </div>
-        <p className="loading-hint">Cette analyse peut prendre jusqu'à 30 secondes...</p>
+        <p className="loading-hint">Cette analyse peut prendre jusqu'à une minute...</p>
       </div>
     </div>
   );

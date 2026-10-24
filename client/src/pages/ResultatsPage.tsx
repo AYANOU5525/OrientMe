@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CheckCircle,
   AlertTriangle,
@@ -12,13 +12,17 @@ import {
   Shield,
   Star,
   X,
+  BookOpen,
+  Cpu,
 } from 'lucide-react';
-import { ResultatOrientation, Recommandation } from '../types';
+import type { ResultatOrientation, Recommandation } from '../types';
 import { Logo } from '../components/Logo';
 
 interface ResultatsPageProps {
   prenom: string;
   resultats: ResultatOrientation;
+  // Modèle ayant généré l'analyse (absent en mode démonstration)
+  modele?: string;
   isDemo: boolean;
   onRecommencer: () => void;
   onModifier: () => void;
@@ -30,6 +34,14 @@ interface ModalProps {
 }
 
 const DetailModal: React.FC<ModalProps> = ({ recommandation, onClose }) => {
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [onClose]);
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div
@@ -37,15 +49,30 @@ const DetailModal: React.FC<ModalProps> = ({ recommandation, onClose }) => {
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
+        aria-labelledby="modal-title"
       >
         <div className="modal-header">
-          <h3 className="modal-title">{recommandation.nom}</h3>
+          <h3 className="modal-title" id="modal-title">{recommandation.nom}</h3>
           <button className="modal-close" onClick={onClose} aria-label="Fermer">
             <X size={20} />
           </button>
         </div>
 
         <div className="modal-body">
+          {recommandation.description && (
+            <section className="modal-section">
+              <h4 className="modal-section-title">
+                <BookOpen size={16} /> La filière en bref
+              </h4>
+              <p className="modal-text">{recommandation.description}</p>
+              {recommandation.prerequis && (
+                <p className="modal-text modal-prerequis">
+                  <strong>Prérequis :</strong> {recommandation.prerequis}
+                </p>
+              )}
+            </section>
+          )}
+
           <section className="modal-section">
             <h4 className="modal-section-title">
               <Star size={16} /> Pourquoi cette filière correspond à ton profil
@@ -120,10 +147,25 @@ const RecommandationCard: React.FC<{
       <div className="rec-card-header">
         <div className="rec-rang-badge">{info.label}</div>
         <h3 className="rec-nom">{recommandation.nom}</h3>
-        <p className="rec-justification-preview">
+        <p className="rec-justification-preview no-print">
           {recommandation.justification.slice(0, 150)}
           {recommandation.justification.length > 150 ? '...' : ''}
         </p>
+      </div>
+
+      {/* Version complète, visible uniquement à l'impression */}
+      <div className="print-only rec-print-details">
+        <p>{recommandation.justification}</p>
+        <h4 className="rec-section-title">Compétences à renforcer</h4>
+        <ul className="rec-list">
+          {recommandation.competencesARenforcer.map((c, i) => (
+            <li key={i}>{c}</li>
+          ))}
+        </ul>
+        <h4 className="rec-section-title">Débouchés</h4>
+        <p>{recommandation.debouches.join(' · ')}</p>
+        <h4 className="rec-section-title">Conseil</h4>
+        <p>{recommandation.conseil}</p>
       </div>
 
       {expanded && (
@@ -174,6 +216,7 @@ const RecommandationCard: React.FC<{
 export const ResultatsPage: React.FC<ResultatsPageProps> = ({
   prenom,
   resultats,
+  modele,
   isDemo,
   onRecommencer,
   onModifier,
@@ -189,7 +232,7 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
       {isDemo && (
         <div className="demo-banner">
           <AlertTriangle size={18} />
-          <strong>Mode Démonstration</strong> — Ce résultat utilise un profil fictif (Kofi, BAC C). Il ne représente pas une analyse Gemini en temps réel.
+          <strong>Mode Démonstration</strong> — Ce résultat utilise un profil fictif (Kofi, BAC C). Il ne représente pas une analyse IA en temps réel.
         </div>
       )}
 
@@ -204,6 +247,11 @@ export const ResultatsPage: React.FC<ResultatsPageProps> = ({
             <p className="resultats-subtitle">
               OrientaTogo AI a analysé ton profil complet pour te proposer trois orientations adaptées.
             </p>
+            {modele && (
+              <p className="resultats-model">
+                <Cpu size={14} /> Analyse générée par {modele} via l'API Google Gemini
+              </p>
+            )}
           </div>
         </div>
 

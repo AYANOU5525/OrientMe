@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AccueilPage } from './pages/AccueilPage';
 import { FormulaireOrientation } from './pages/FormulaireOrientation';
 import { ResultatsPage } from './pages/ResultatsPage';
 import { LoadingScreen } from './components/LoadingScreen';
 import { ErrorCard } from './components/ErrorCard';
-import { soumettreOrientation, getDemo } from './services/api';
-import { ResultatOrientation, ProfilScolaire, Competences, Aspirations } from './types';
+import { soumettreOrientation, getDemo, ErreurOrientation } from './services/api';
+import type { CodeErreur } from './services/api';
+import type { ResultatOrientation, DonneesFormulaire } from './types';
 import './App.css';
 
 type EtapeApp = 'accueil' | 'formulaire' | 'chargement' | 'resultats' | 'erreur';
@@ -13,38 +14,39 @@ type EtapeApp = 'accueil' | 'formulaire' | 'chargement' | 'resultats' | 'erreur'
 function App() {
   const [etape, setEtape] = useState<EtapeApp>('accueil');
   const [resultats, setResultats] = useState<ResultatOrientation | null>(null);
+  const [modele, setModele] = useState<string | undefined>();
   const [prenom, setPrenom] = useState('');
   const [isDemo, setIsDemo] = useState(false);
-  const [erreur, setErreur] = useState('');
-  const [dernierProfil, setDernierProfil] = useState<{
-    profil: ProfilScolaire;
-    competences: Competences;
-    aspirations: Aspirations;
-  } | null>(null);
+  const [erreur, setErreur] = useState<{ message: string; code: CodeErreur }>({
+    message: '',
+    code: 'UNKNOWN',
+  });
+  const [dernierProfil, setDernierProfil] = useState<DonneesFormulaire | null>(null);
 
-  const handleStartOrientation = () => {
-    setEtape('formulaire');
+  const afficherErreur = (error: unknown) => {
+    if (error instanceof ErreurOrientation) {
+      setErreur({ message: error.message, code: error.code });
+    } else {
+      setErreur({ message: 'Une erreur inattendue est survenue.', code: 'UNKNOWN' });
+    }
+    setEtape('erreur');
   };
 
-  const handleSubmitFormulaire = async (data: {
-    profil: ProfilScolaire;
-    competences: Competences;
-    aspirations: Aspirations;
-  }) => {
+  const handleSubmitFormulaire = async (data: DonneesFormulaire) => {
     setPrenom(data.profil.prenom);
     setDernierProfil(data);
     setEtape('chargement');
     setIsDemo(false);
 
-    try {
-      const allCompetences = data.competences.autreCompetence?.trim()
-        ? [...data.competences.competences, data.competences.autreCompetence.trim()]
-        : data.competences.competences;
+    const autreCompetence = data.competences.autreCompetence.trim();
 
+    try {
       const response = await soumettreOrientation({
         serieBAC: data.profil.serieBAC,
         notes: data.profil.notes,
-        competences: allCompetences,
+        competences: autreCompetence
+          ? [...data.competences.competences, autreCompetence]
+          : data.competences.competences,
         domainesInteret: data.aspirations.domainesInteret,
         metierSouhaite: data.aspirations.metierSouhaite,
         loisirs: data.aspirations.loisirs,
@@ -52,28 +54,10 @@ function App() {
       });
 
       setResultats(response.data);
+      setModele(response.model);
       setEtape('resultats');
     } catch (error: unknown) {
-      const msg =
-        error instanceof Error
-          ? error.message
-          : 'Une erreur est survenue lors de la connexion au serveur.';
-
-      // Vérifier si c'est un problème de serveur non configuré
-      const isServiceUnavailable =
-        msg.includes('SERVICE_UNAVAILABLE') ||
-        msg.includes('ECONNREFUSED') ||
-        msg.includes('non configuré') ||
-        msg.includes('Network Error');
-
-      if (isServiceUnavailable) {
-        setErreur(
-          'Le service d\'orientation IA n\'est pas disponible pour le moment. Vérifiez que le serveur est démarré et que la clé Gemini est configurée.'
-        );
-      } else {
-        setErreur(msg);
-      }
-      setEtape('erreur');
+      afficherErreur(error);
     }
   };
 
@@ -90,12 +74,12 @@ function App() {
     try {
       const response = await getDemo();
       setResultats(response.data);
+      setModele(undefined);
       setPrenom('Kofi');
       setIsDemo(true);
       setEtape('resultats');
-    } catch {
-      setErreur('Impossible de charger la démonstration. Vérifiez que le serveur est démarré.');
-      setEtape('erreur');
+    } catch (error: unknown) {
+      afficherErreur(error);
     }
   };
 
@@ -107,20 +91,25 @@ function App() {
     setEtape('accueil');
   };
 
+  // Retour au formulaire, pré-rempli avec les dernières réponses
   const handleModifier = () => {
     setResultats(null);
     setIsDemo(false);
     setEtape('formulaire');
   };
 
+  // Réessayer est inutile tant que la clé API n'est pas configurée
+  const peutReessayer = erreur.code !== 'AI_NOT_CONFIGURED';
+
   return (
     <div className="app-root">
       {etape === 'accueil' && (
-        <AccueilPage onStart={handleStartOrientation} />
+        <AccueilPage onStart={() => setEtape('formulaire')} />
       )}
 
       {etape === 'formulaire' && (
         <FormulaireOrientation
+          initialData={dernierProfil ?? undefined}
           onSubmit={handleSubmitFormulaire}
           onBack={() => setEtape('accueil')}
         />
@@ -131,8 +120,8 @@ function App() {
       {etape === 'erreur' && (
         <div className="error-page">
           <ErrorCard
-            message={erreur}
-            onRetry={handleReessayer}
+            message={erreur.message}
+            onRetry={peutReessayer ? handleReessayer : undefined}
             onDemo={handleVoirDemo}
             showDemo={true}
           />
@@ -149,6 +138,7 @@ function App() {
         <ResultatsPage
           prenom={prenom}
           resultats={resultats}
+          modele={modele}
           isDemo={isDemo}
           onRecommencer={handleRecommencer}
           onModifier={handleModifier}

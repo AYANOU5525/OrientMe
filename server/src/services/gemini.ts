@@ -1,189 +1,198 @@
-import { GoogleGenAI } from '@google/genai';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import {
-  OrientationRequest,
-  OrientationResponse,
-  OrientationResponseSchema,
-} from '../schemas';
+import { ApiError, GoogleGenAI, type Content, type GenerateContentParameters } from '@google/genai';
+import { config, isAiConfigured } from '../config';
+import { AppError } from '../errors';
+import { OrientationRequest, OrientationResponse, OrientationResult } from '../schemas';
+import { enrichir, parseAiResponse } from './parsing';
+import { RESPONSE_JSON_SCHEMA, SYSTEM_INSTRUCTION, buildUserPrompt } from './prompt';
 
-// Chargement du catalogue
-const filieresPath = join(__dirname, '../data/filieres.json');
-const filieres = JSON.parse(readFileSync(filieresPath, 'utf-8')) as Array<{
-  id: string;
-  nom: string;
-  description: string;
-  domaines: string[];
-  matieresPertinentes: string[];
-  competencesUtiles: string[];
-  debouches: string[];
-  pointsVigilance: string[];
-  prerequis: string;
-}>;
+const MAX_ATTEMPTS_PER_MODEL = 2;
 
-const VALID_IDS = new Set(filieres.map((f) => f.id));
+// Appel brut à l'API ; remplaçable dans les tests
+export type ModelCaller = (params: GenerateContentParameters) => Promise<string | undefined>;
 
-function buildCatalogSummary(): string {
-  return filieres
-    .map(
-      (f) =>
-        `- ID: "${f.id}" | Nom: "${f.nom}" | Domaines: ${f.domaines.join(', ')}`
-    )
-    .join('\n');
+let client: GoogleGenAI | null = null;
+
+const callGemini: ModelCaller = async (params) => {
+  client ??= new GoogleGenAI({ apiKey: config.geminiApiKey });
+  const response = await client.models.generateContent(params);
+  return response.text;
+};
+
+// Certains modèles refusent le mode JSON natif ou l'instruction système (ex. Gemma 3).
+// Le refus est détecté à la première requête puis mémorisé pour la durée de vie du serveur.
+interface ModelCapabilities {
+  jsonMode: boolean;
+  systemInstruction: boolean;
 }
 
-function buildPrompt(data: OrientationRequest): string {
-  const notesText = Object.entries(data.notes)
-    .map(([matiere, note]) => `  - ${matiere}: ${note}/20`)
-    .join('\n');
+const capabilities = new Map<string, ModelCapabilities>();
 
-  const prefFormation =
-    data.preferenceFormation === 'theorique'
-      ? 'théorique'
-      : data.preferenceFormation === 'pratique'
-      ? 'pratique'
-      : 'théorique et pratique';
-
-  return `
-Tu es OrientaTogo AI, un assistant spécialisé dans l'orientation post-BAC au Togo.
-
-Analyse le profil de cet étudiant et recommande exactement 3 filières d'études supérieures parmi le catalogue fourni.
-
-## PROFIL ÉTUDIANT
-
-Série du BAC: ${data.serieBAC}
-
-Notes scolaires:
-${notesText}
-
-Compétences déclarées:
-${data.competences.map((c) => `  - ${c}`).join('\n')}
-
-Domaines d'intérêt:
-${data.domainesInteret.map((d) => `  - ${d}`).join('\n')}
-
-Métier envisagé: ${data.metierSouhaite || 'Non précisé'}
-
-Activités de loisirs: ${data.loisirs || 'Non précisé'}
-
-Préférence de formation: ${prefFormation}
-
-## CATALOGUE DES FILIÈRES AUTORISÉES
-
-${buildCatalogSummary()}
-
-## INSTRUCTIONS STRICTES
-
-1. Retourne EXACTEMENT 3 recommandations distinctes.
-2. Chaque filiereId DOIT appartenir exactement au catalogue ci-dessus.
-3. Adapte tes recommandations aux notes ET aux aspirations, pas seulement à la moyenne.
-4. Pour chaque filière, identifie 2-3 compétences à renforcer spécifiques à ce profil.
-5. Liste 3 débouchés professionnels concrets.
-6. Rédige un conseil personnalisé encourageant mais réaliste.
-7. Dans le profil, résume en 2-3 phrases les caractéristiques distinctives de l'étudiant.
-8. Identifie 2-3 points forts et 1-2 points de vigilance.
-9. Le conseilGeneral doit être une synthèse bienveillante et motivante.
-10. Utilise un français simple, clair et encourageant.
-11. NE MENTIONNE PAS de pourcentages de compatibilité, d'admissions garanties ou d'établissements précis.
-
-## FORMAT DE RÉPONSE
-
-Retourne UNIQUEMENT un JSON valide respectant exactement ce schéma:
-
-{
-  "profil": {
-    "resume": "string",
-    "pointsForts": ["string", "string"],
-    "pointsVigilance": ["string"]
-  },
-  "recommandations": [
-    {
-      "filiereId": "string (doit être dans le catalogue)",
-      "nom": "string",
-      "justification": "string",
-      "competencesARenforcer": ["string", "string"],
-      "debouches": ["string", "string", "string"],
-      "conseil": "string"
-    }
-  ],
-  "conseilGeneral": "string"
-}
-  `.trim();
-}
-
-export async function getGeminiRecommendations(
-  data: OrientationRequest
-): Promise<OrientationResponse> {
-  const apiKey = process.env.GEMINI_API_KEY;
-
-  if (!apiKey) {
-    throw new Error('GEMINI_API_KEY non configurée');
+function capabilitiesOf(model: string): ModelCapabilities {
+  let caps = capabilities.get(model);
+  if (!caps) {
+    caps = { jsonMode: true, systemInstruction: true };
+    capabilities.set(model, caps);
   }
+  return caps;
+}
 
-  const ai = new GoogleGenAI({ apiKey });
-  const modelName = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+class InvalidAiResponseError extends Error {}
 
-  const prompt = buildPrompt(data);
+// Sans instruction système, les règles sont placées en tête du premier message
+function withInlineInstruction([first, ...rest]: Content[]): Content[] {
+  const prompt = first.parts?.[0]?.text ?? '';
+  return [{ role: 'user', parts: [{ text: `${SYSTEM_INSTRUCTION}\n\n${prompt}` }] }, ...rest];
+}
 
-  const response = await ai.models.generateContent({
-    model: modelName,
-    contents: prompt,
-    config: {
-      responseMimeType: 'application/json',
-      temperature: 0.4,
-      maxOutputTokens: 2048,
-    },
-  });
+async function generate(
+  model: string,
+  contents: Content[],
+  signal: AbortSignal,
+  callModel: ModelCaller
+): Promise<string | undefined> {
+  const caps = capabilitiesOf(model);
 
-  const text = response.text;
-  if (!text) {
-    throw new Error('Réponse vide de Gemini');
-  }
-
-  // Parse JSON
-  let parsed: unknown;
   try {
-    // Nettoyer le texte si nécessaire (retirer markdown code blocks)
-    const cleaned = text.replace(/^```json\n?|\n?```$/g, '').trim();
-    parsed = JSON.parse(cleaned);
-  } catch {
-    throw new Error('La réponse de Gemini n\'est pas un JSON valide');
+    return await callModel({
+      model,
+      contents: caps.systemInstruction ? contents : withInlineInstruction(contents),
+      config: {
+        abortSignal: signal,
+        temperature: 0.4,
+        maxOutputTokens: 8192,
+        ...(caps.systemInstruction && { systemInstruction: SYSTEM_INSTRUCTION }),
+        ...(caps.jsonMode && {
+          responseMimeType: 'application/json',
+          responseJsonSchema: RESPONSE_JSON_SCHEMA,
+        }),
+        ...(config.thinkingLevel && { thinkingConfig: { thinkingLevel: config.thinkingLevel } }),
+      },
+    });
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 400) {
+      if (caps.jsonMode && /json|mime|schema/i.test(error.message)) {
+        caps.jsonMode = false;
+        console.warn(`ℹ️  ${model} : mode JSON natif refusé, bascule sur le JSON guidé par le prompt.`);
+        return generate(model, contents, signal, callModel);
+      }
+      if (caps.systemInstruction && /system|developer instruction/i.test(error.message)) {
+        caps.systemInstruction = false;
+        console.warn(`ℹ️  ${model} : instruction système refusée, règles intégrées au message.`);
+        return generate(model, contents, signal, callModel);
+      }
+    }
+    throw error;
   }
+}
 
-  // Valider avec Zod
-  const validated = OrientationResponseSchema.safeParse(parsed);
-  if (!validated.success) {
-    console.error('Erreur de validation Zod:', validated.error.format());
-    throw new Error('La réponse de Gemini ne correspond pas au format attendu');
-  }
+// Génère puis valide la réponse ; en cas d'erreur, renvoie la raison au modèle pour qu'il se corrige
+async function generateValidated(
+  model: string,
+  data: OrientationRequest,
+  signal: AbortSignal,
+  callModel: ModelCaller
+): Promise<OrientationResponse> {
+  const contents: Content[] = [{ role: 'user', parts: [{ text: buildUserPrompt(data) }] }];
+  let reason = '';
 
-  // Vérifier que les filiereIds sont valides
-  const result = validated.data;
-  for (const rec of result.recommandations) {
-    if (!VALID_IDS.has(rec.filiereId)) {
-      throw new Error(
-        `Filière inconnue retournée par Gemini: "${rec.filiereId}". Filières autorisées: ${[...VALID_IDS].join(', ')}`
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS_PER_MODEL; attempt++) {
+    const text = await generate(model, contents, signal, callModel);
+    const result = parseAiResponse(text);
+    if (result.ok) return result.data;
+
+    reason = result.reason;
+    console.warn(`⚠️  ${model} — réponse invalide (tentative ${attempt}/${MAX_ATTEMPTS_PER_MODEL}) : ${reason}`);
+    if (text?.trim()) {
+      contents.push(
+        { role: 'model', parts: [{ text }] },
+        {
+          role: 'user',
+          parts: [
+            {
+              text: `Ta réponse précédente est invalide : ${reason}. Renvoie uniquement l'objet JSON corrigé, conforme au format demandé.`,
+            },
+          ],
+        }
       );
     }
   }
 
-  // Vérifier l'unicité
-  const ids = result.recommandations.map((r) => r.filiereId);
-  const uniqueIds = new Set(ids);
-  if (uniqueIds.size !== 3) {
-    throw new Error('Les recommandations doivent être des filières distinctes');
-  }
-
-  // Enrichir les recommandations avec les données du catalogue
-  result.recommandations = result.recommandations.map((rec) => {
-    const filiere = filieres.find((f) => f.id === rec.filiereId);
-    if (filiere && (!rec.debouches || rec.debouches.length === 0)) {
-      rec.debouches = filiere.debouches.slice(0, 3);
-    }
-    return rec;
-  });
-
-  return result;
+  throw new InvalidAiResponseError(`${model} : ${reason}`);
 }
 
-export { filieres, VALID_IDS };
+function canTryNextModel(error: unknown): boolean {
+  if (error instanceof InvalidAiResponseError) return true;
+  // 404 : modèle introuvable, 429 : quota du modèle épuisé, 5xx : modèle surchargé
+  return error instanceof ApiError && (error.status === 404 || error.status === 429 || error.status >= 500);
+}
+
+function toAppError(error: unknown, timedOut: boolean): AppError {
+  if (timedOut) {
+    return new AppError('AI_TIMEOUT', 504, 'L\'analyse a pris trop de temps. Réessaie dans un instant.');
+  }
+  if (error instanceof InvalidAiResponseError) {
+    return new AppError(
+      'AI_INVALID_RESPONSE',
+      502,
+      'L\'IA a renvoyé une réponse inexploitable. Réessaie : le résultat peut varier d\'une tentative à l\'autre.'
+    );
+  }
+  if (error instanceof ApiError) {
+    if (error.status === 429) {
+      return new AppError(
+        'AI_QUOTA',
+        429,
+        'Le quota de l\'API Gemini est atteint. Patiente une minute avant de réessayer.'
+      );
+    }
+    if (error.status === 401 || error.status === 403 || (error.status === 400 && /api key/i.test(error.message))) {
+      return new AppError(
+        'AI_NOT_CONFIGURED',
+        503,
+        'La clé API Gemini est invalide ou n\'a pas accès au modèle configuré.'
+      );
+    }
+  }
+  return new AppError(
+    'AI_UNAVAILABLE',
+    502,
+    'Le service d\'IA est momentanément indisponible. Réessaie dans quelques instants.'
+  );
+}
+
+export async function getRecommendations(
+  data: OrientationRequest,
+  callModel: ModelCaller = callGemini
+): Promise<{ result: OrientationResult; model: string }> {
+  if (!isAiConfigured()) {
+    throw new AppError(
+      'AI_NOT_CONFIGURED',
+      503,
+      'Le service d\'orientation IA n\'est pas configuré (clé API Gemini manquante).'
+    );
+  }
+
+  // Un seul budget de temps pour l'ensemble des modèles et tentatives
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), config.timeoutMs);
+  let lastError: unknown;
+
+  try {
+    for (const model of config.models) {
+      const startedAt = Date.now();
+      try {
+        const response = await generateValidated(model, data, controller.signal, callModel);
+        console.log(`✅ Recommandations générées par ${model} en ${Date.now() - startedAt} ms`);
+        return { result: enrichir(response), model };
+      } catch (error) {
+        lastError = error;
+        console.warn(`⚠️  Échec avec ${model} :`, error instanceof Error ? error.message : error);
+        if (controller.signal.aborted || !canTryNextModel(error)) break;
+      }
+    }
+  } finally {
+    clearTimeout(timer);
+  }
+
+  throw toAppError(lastError, controller.signal.aborted);
+}

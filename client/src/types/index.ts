@@ -24,6 +24,24 @@ export interface Aspirations {
 
 export interface ProfilComplet extends ProfilScolaire, Competences, Aspirations {}
 
+// Réponses du formulaire, conservées pour pouvoir les modifier après les résultats
+export interface DonneesFormulaire {
+  profil: ProfilScolaire;
+  competences: Competences;
+  aspirations: Aspirations;
+}
+
+// Corps envoyé à POST /api/orientation (le prénom reste dans le navigateur)
+export interface DemandeOrientation {
+  serieBAC: string;
+  notes: Record<string, number>;
+  competences: string[];
+  domainesInteret: string[];
+  metierSouhaite: string;
+  loisirs: string;
+  preferenceFormation: Aspirations['preferenceFormation'];
+}
+
 export interface Recommandation {
   filiereId: string;
   nom: string;
@@ -31,6 +49,9 @@ export interface Recommandation {
   competencesARenforcer: string[];
   debouches: string[];
   conseil: string;
+  // Données officielles du catalogue, ajoutées par le serveur
+  description?: string;
+  prerequis?: string;
 }
 
 export interface AnalyseProfil {
@@ -48,6 +69,8 @@ export interface ResultatOrientation {
 export interface ApiResponse {
   success: boolean;
   data: ResultatOrientation;
+  // Modèle ayant produit l'analyse (ex. gemma-4-26b-a4b-it)
+  model?: string;
   isDemo?: boolean;
   profile?: ProfilComplet;
 }

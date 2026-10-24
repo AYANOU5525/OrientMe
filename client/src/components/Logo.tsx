@@ -8,13 +8,13 @@ interface LogoProps {
 
 export const Logo: React.FC<LogoProps> = ({ size = 'md', className = '' }) => {
   const sizes = {
-    sm: { icon: 20, text: 'text-lg' },
-    md: { icon: 28, text: 'text-2xl' },
-    lg: { icon: 40, text: 'text-4xl' },
+    sm: { icon: 20, text: 'logo-text-sm' },
+    md: { icon: 28, text: 'logo-text-md' },
+    lg: { icon: 40, text: 'logo-text-lg' },
   };
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <div className={`logo ${className}`}>
       <div className="logo-icon">
         <GraduationCap size={sizes[size].icon} />
       </div>

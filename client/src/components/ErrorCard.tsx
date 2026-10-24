@@ -37,7 +37,7 @@ export const ErrorCard: React.FC<ErrorCardProps> = ({
       </div>
       {showDemo && (
         <p className="error-demo-note">
-          La démonstration utilise un profil fictif et ne représente pas une analyse Gemini en temps réel.
+          La démonstration utilise un profil fictif et ne représente pas une analyse IA en temps réel.
         </p>
       )}
     </div>
